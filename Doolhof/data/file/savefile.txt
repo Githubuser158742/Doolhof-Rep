@@ -1,0 +1,5 @@
+widthLevel=300
+heightLevel=162
+scale=3
+tileMultiplier=3
+playerLocation=level1
