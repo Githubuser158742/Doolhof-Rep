@@ -35,7 +35,6 @@ class Screen{
 		this.audio = audio;
 		this.piano = new Piano(this);
     	this.miniGame = new MiniGame(piano);
-    	this.credits = new Credits();
     	//this.setting = new Setting(this);
     	this.sprite = new Sprite(this);
 		initScreen();
@@ -55,6 +54,7 @@ class Screen{
     	tileHeight = (((height * scale) >> sprite.getTileSize()) / sprite.getTileMultiplier()) + 1;
 
     	initMainMenu();
+    	this.credits = new Credits(this);
 	}
 
 	void initPlayer(){
