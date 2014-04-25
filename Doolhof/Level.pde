@@ -3,6 +3,8 @@ class Level {
   MenuBar menuBar;
   Player player;
   Piano piano;
+  Minim minim2;
+  Audio audio2;
   PImage map;
   Screen screen;
   PImage spriteSheet;
@@ -152,6 +154,9 @@ class Level {
         piano.visible = true;
         piano.randomGeluid();
       }
+      //minim2 = new Minim(this);
+      //audio2 = new Audio(minim2);
+      //audio2.play("playerPoort");
       wallNewLocation(xWall, yWall);
   }
 
