@@ -79,7 +79,7 @@ class Audio {
     if (name.equals("player10")) player10.play();
     if (name.equals("player11")) player11.play();
     if (name.equals("player12")) player12.play();
-    if (name.equals("playerGameMusic")) playerGameMusic.play();
+    if (name.equals("playerGameMusic")) playerGameMusic.loop();
     if (name.equals("playerButton")) playerButton.play();
     if (name.equals("playerPoort")) playerPoort.play();
     if (name.equals("playerLevelUp")) playerLevelUp.play();
