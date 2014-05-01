@@ -55,8 +55,8 @@ class MainMenu{
 	}
 
 	/*
-	deze mzthode zal de buttons elke frame naar het scherm renderen
-	renderd de achtergrond naar het scherm
+deze methode zal de buttons elke frame naar het scherm renderen
+rendert de achtergrond naar het scherm
 	*/
 	void render(int widthScreen, int heightScreen){
 		int xx = widthScreen / 2;

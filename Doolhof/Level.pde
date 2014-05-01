@@ -154,10 +154,11 @@ class Level {
         piano.visible = true;
         piano.randomGeluid();
       }
+      
+      wallNewLocation(xWall, yWall);
       //minim2 = new Minim(this);
       //audio2 = new Audio(minim2);
       //audio2.play("playerPoort");
-      wallNewLocation(xWall, yWall);
   }
 
   void wallNewLocation(int xWall, int yWall){
