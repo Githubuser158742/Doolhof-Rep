@@ -15,6 +15,8 @@ class Screen{
 	MiniGame miniGame;
 	Setting setting;
 	Credits credits;
+	ControlP5 cp5;
+	Hue hue;
 
 	//fields
 	int width = 300;
@@ -27,16 +29,17 @@ class Screen{
 	String location = "mainMenu";
 
 	//constructoren
-	Screen(ReadWriteFile file, Keyboard keyboard, Minim minim, Audio audio){
+	Screen(ReadWriteFile file, Keyboard keyboard, Minim minim, Audio audio, ControlP5 cp5){
 		this.data = new Data();
 		this.file = file;
 		this.keyboard = keyboard;
 		this.minim = minim;
 		this.audio = audio;
 		this.piano = new Piano(this);
-    	this.miniGame = new MiniGame(piano);
-    	//this.setting = new Setting(this);
+		this.hue = new Hue();
+    	this.miniGame = new MiniGame(piano, hue);
     	this.sprite = new Sprite(this);
+    	this.cp5 = cp5;
 		initScreen();
 	}
 
@@ -55,6 +58,7 @@ class Screen{
 
     	initMainMenu();
     	this.credits = new Credits(this);
+    	this.setting = new Setting(this);
 	}
 
 	void initPlayer(){
@@ -78,7 +82,7 @@ class Screen{
 	//deze methode kijkt welke locatie player is en gaat dan naar die locatie
 	void goToLocation(){
   		if(player.location.equals("mainMenu")) mainMenu.render(tileWidth, tileHeight);
-  		//if(player.location.equals("setting")) setting.render();
+  		if(player.location.equals("setting")) setting.render();
   		if(player.location.equals("credits")) credits.render();
  		if(player.location.equals("new")) player.newLevel(dataPath + "sheets/" + file.levelList.get(0) + ".png", width * scale, height * scale, "level1");
   		if(player.location.equals("continue")) player.newLevel(dataPath + "sheets/" + lastUnlockedLevel + ".png", width * scale, height * scale, lastUnlockedLevel);
@@ -104,6 +108,14 @@ class Screen{
 	//functies
 	Player getPlayer(){
 		return player;
+	}
+
+	ControlP5 getCP5(){
+		return cp5;
+	}
+
+	Hue getHue(){
+		return hue;
 	}
 
 	Data getData(){

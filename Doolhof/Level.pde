@@ -10,6 +10,7 @@ class Level {
   PImage spriteSheet;
   PImage screenImage;
   MiniGame miniGame;
+  Hue hue;
   int spawnX = 0;
   int spawnY = 0;
   int goalX = 0;
@@ -20,6 +21,7 @@ class Level {
     this.sprite = screen.getSprite();
     this.miniGame = screen.getMiniGame();
     this.piano = screen.getPiano();
+    this.hue = screen.getHue();
     map = sprite.getSpriteSheet(path);
     spriteSheet = sprite.getSpriteSheet("data/sheets/sheet.png");
     if(playable) {
@@ -143,16 +145,17 @@ class Level {
       }
     }
     if(menuBar != null) menuBar.render();
-    if(piano.visible){
-       piano.render();
-    }
+    if(piano.visible) piano.render();
+    if(hue.visible) hue.render();
   }
 
   void getMiniGame(int xWall, int yWall){
-      String game = miniGame.miniGameList.get(0);
+      String game = miniGame.miniGameList.get(1);
       if(game.equals("piano")){
         piano.visible = true;
         piano.randomGeluid();
+      } else if(game.equals("hue")){
+        hue.visible = true;
       }
       
       wallNewLocation(xWall, yWall);
