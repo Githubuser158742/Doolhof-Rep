@@ -27,6 +27,9 @@ class Piano{
 	boolean visible = false;
 	Timer timer1;
 	Timer timer2;
+	String feest;
+	String gedrukteToets;
+	boolean succes = false;
 
 	//constructoren
 	Piano(Screen screen){
@@ -54,13 +57,11 @@ class Piano{
   		rect(x9, 0, breedte2, lengte2);
   		rect(x11, 0, breedte2, lengte2);
   		getInput();
+  		herkenGeluid();
   		if(timer1 !=null){
   			timer1.update();
-  			if(timer1.time == timer1.length) println("timer1");
-  		}
-  		if(timer2 !=null){
-  			timer2.update();
-  			if(timer2.time == timer2.length) println("timer2");
+  			println(timer1.time);
+  			if(timer1.time == timer1.length) visible = false;;
   		}
 	}
 
@@ -87,31 +88,83 @@ class Piano{
 	}
 
 	//deze methode cheked of er een toets is ingetikt en wordt de corresponderende geluid afgespeeld
-	void getKeyInput(){
-		if (keyboard.a) PlayAudio("player1");
-		if (keyboard.b) PlayAudio("player2");
-        if (keyboard.c) PlayAudio("player3");
-		if (keyboard.d) PlayAudio("player4");
-  		if (keyboard.e) PlayAudio("player5");
-		if (keyboard.f) PlayAudio("player6");
-		if (keyboard.g) PlayAudio("player7");
-		if (keyboard.h) PlayAudio("player8");
-		if (keyboard.i) PlayAudio("player9");
-  		if (keyboard.j) PlayAudio("player10");
-		if (keyboard.k) PlayAudio("player11");
-  		if (keyboard.l) PlayAudio("player12");
-	}
+	void getKeyInput() {
+    	if (keyboard.a) {
+      		PlayAudio("player1");
+      		gedrukteToets="player1";
+    	}
+    	if (keyboard.b) {
+      		PlayAudio("player2");
+      		gedrukteToets="player2";
+    	}
+    	if (keyboard.c) { 
+      		PlayAudio("player3");
+      		gedrukteToets="player3";
+    	}
+    	if (keyboard.d) {
+      		PlayAudio("player4");
+      		gedrukteToets="player4";
+    	}
+    	if (keyboard.e) {
+      		PlayAudio("player5");
+      		gedrukteToets="player5";
+    	}
+    	if (keyboard.f) {
+      		PlayAudio("player6");
+      		gedrukteToets="player6";
+    	}
+    	if (keyboard.g) {
+      		PlayAudio("player7");
+      		gedrukteToets="player7";
+    	}
+    	if (keyboard.h) {
+      		PlayAudio("player8");
+      		gedrukteToets="player8";
+    	}
+    	if (keyboard.i) {
+      		PlayAudio("player9");
+      		gedrukteToets="player9";
+    	}
+    	if (keyboard.j) { 
+      		PlayAudio("player10");
+      		gedrukteToets="player10";
+    	}
+    	if (keyboard.k) {
+      		PlayAudio("player11");
+      		gedrukteToets="player11";
+    	}
+    	if (keyboard.l) {
+      		PlayAudio("player12");
+      		gedrukteToets="player12";
+    	}
+    }
 
 	//deze methode speeld geluid af en sluit alle andere geluiden af
 	void PlayAudio(String name){
 		audio.play(name);
 
-		for(int i = 1;i <= 12;i++){
+		for(int i = 1;i <= 12; i++){
 			if(!name.equals("player" + i)) audio.stop("player" + i);
 		}
 	}
 
 	void randomGeluid() {
+    	gedrukteToets="leeg";
+    	int random1 = int(random(1, 12));
+    	feest = "player"+random1;
+    	println(feest);
+    	PlayAudio(feest);
+  	}
+
+  	void herkenGeluid() {
+    	if(gedrukteToets.equals(feest)==true && !succes) {
+      		println("Correct");
+      		succes = true;
+      		visible = false;
+    	}    
+  	}
+
+	/*void randomGeluid() {
     	Float random1 = random(1,12);
     	int random2 = round(random1);
     	String feest = "player"+random2;
@@ -133,5 +186,5 @@ class Piano{
     	String feest3 = "player"+random6;
     	println(feest3);
     	PlayAudio(feest3); 
-  	}
+  	}*/
 }

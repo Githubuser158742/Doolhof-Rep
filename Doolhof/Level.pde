@@ -15,6 +15,8 @@ class Level {
   int spawnY = 0;
   int goalX = 0;
   int goalY = 0;
+  int xW = 0;
+  int yW = 0;
 
   Level(String path, int widthScreen, int heightScreen, Screen screen, boolean playable){
     this.screen = screen;
@@ -145,23 +147,26 @@ class Level {
       }
     }
     if(menuBar != null) menuBar.render();
-    if(piano.visible) piano.render();
+    if(piano.visible){
+      piano.render();
+      if(piano.succes) wallNewLocation(xW, yW);
+    } 
     if(hue.visible) hue.render();
   }
 
   void getMiniGame(int xWall, int yWall){
-      String game = miniGame.miniGameList.get(1);
+      xW = xWall;
+      yW = yWall;
+      String game = miniGame.miniGameList.get(miniGame.index);
+      miniGame.incrementIndex();
       if(game.equals("piano")){
         piano.visible = true;
         piano.randomGeluid();
       } else if(game.equals("hue")){
         hue.visible = true;
-      }
-      
-      wallNewLocation(xWall, yWall);
-      //minim2 = new Minim(this);
-      //audio2 = new Audio(minim2);
-      //audio2.play("playerPoort");
+      } else{
+        wallNewLocation(xWall, yWall);
+      } 
   }
 
   void wallNewLocation(int xWall, int yWall){

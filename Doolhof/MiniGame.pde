@@ -18,6 +18,11 @@ class MiniGame{
 		miniGameList.add("hue");
 	}
 
+	void incrementIndex(){
+		if(index+1 >= miniGameList.size()) index = 0;
+		index++;
+	}
+
 	Piano getPiano(){
 		return piano;
 	}

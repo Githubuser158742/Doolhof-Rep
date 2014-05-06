@@ -165,7 +165,8 @@ class Player {
   }
 
   void interact(){
-    if(keyboard.space){
+    if(keyboard.space && !keyboard.input){
+      keyboard.input = true;
       if(level.checkNextTile(xPlayer - 1, yPlayer,0,0,0)) level.getMiniGame(xPlayer - 1, yPlayer);
       if(level.checkNextTile(xPlayer + 1, yPlayer,0,0,0)) level.getMiniGame(xPlayer + 1, yPlayer);
       if(level.checkNextTile(xPlayer, yPlayer - 1,0,0,0)) level.getMiniGame(xPlayer, yPlayer - 1);
