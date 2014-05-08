@@ -33,6 +33,6 @@ class Hue{
 		if(col.equals("yellow")) fill(color(255,255,0));
 		if(col.equals("white")) fill(color(255,255,255));
 		if(col.equals("purple")) fill(color(255,0,255));
-		ellipse(100,100,50,50);
+		ellipse((screen.getWidthScreen() * screen.getScale() / 2),(screen.getHeightScreen() * screen.getScale() / 2),50,50);
 	}
 }

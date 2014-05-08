@@ -24,45 +24,55 @@ class Piano{
 	int x12 = 190;  
 	int widthPiano = 230;
 	int heightPiano = 150;
+	int startX = 0;
+	int startY = 0;
 	boolean visible = false;
 	Timer timer1;
-	Timer timer2;
-	String feest;
-	String gedrukteToets;
+	int maxAantalGeluiden = 3;
+	int huidigeGeluid = 0;
+	int waarde = 0;
+	String geluid = "";
+	String gedrukteToets = "";
 	boolean succes = false;
+	String[] toetsen = new String[maxAantalGeluiden];
+	int huidigeToets = 0;
 
 	//constructoren
 	Piano(Screen screen){
 		this.screen = screen;
- 		this.audio = screen.getAudio();
- 		this.keyboard = screen.getKeyboard();
+		this.audio = screen.getAudio();
+		this.keyboard = screen.getKeyboard();
 	}
 
 	//methods
 	//deze methode renderd de piano op scherm
 	void render(){	
-  		fill(255);
-  		rect(x1, 0, breedte1, lengte1);
-  		rect(x3, 0, breedte1, lengte1);
-  		rect(x5, 0, breedte1, lengte1);
-  		rect(x6, 0, breedte1, lengte1);
-  		rect(x8, 0, breedte1, lengte1);
-  		rect(x10, 0, breedte1, lengte1); 
-  		rect(x12, 0, breedte1, lengte1);
+		this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
+		this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
+		fill(255);
+		rect(x1 + startX, 0 + startY, breedte1, lengte1);
+		rect(x3 + startX, 0 + startY, breedte1, lengte1);
+		rect(x5 + startX, 0 + startY, breedte1, lengte1);
+		rect(x6 + startX, 0 + startY, breedte1, lengte1);
+		rect(x8 + startX, 0 + startY, breedte1, lengte1);
+		rect(x10 + startX, 0 + startY, breedte1, lengte1); 
+		rect(x12 + startX, 0 + startY, breedte1, lengte1);
 
-  		fill(0);
-  		rect(x2, 0, breedte2, lengte2);
-  		rect(x4, 0, breedte2, lengte2);
-  		rect(x7, 0, breedte2, lengte2);
-  		rect(x9, 0, breedte2, lengte2);
-  		rect(x11, 0, breedte2, lengte2);
-  		getInput();
-  		herkenGeluid();
-  		if(timer1 !=null){
-  			timer1.update();
-  			println(timer1.time);
-  			if(timer1.time == timer1.length) visible = false;;
-  		}
+		fill(0);
+		rect(x2 + startX, 0 + startY, breedte2, lengte2);
+		rect(x4 + startX, 0 + startY, breedte2, lengte2);
+		rect(x7 + startX, 0 + startY, breedte2, lengte2);
+		rect(x9 + startX, 0 + startY, breedte2, lengte2);
+		rect(x11 + startX, 0 + startY, breedte2, lengte2);
+		getInput();
+		if(timer1 !=null){
+			timer1.update();
+			if(timer1.time == timer1.length && huidigeGeluid < maxAantalGeluiden){
+				startTimer();
+				randomGeluid();
+				huidigeGeluid++;
+			}
+		}
 	}
 
 	//deze methode checked de keyinput mouse en keyboard
@@ -73,71 +83,47 @@ class Piano{
 
 	//deze methode checked muis locatie en wanneer er over de toets wordt gehoverd wordt corresponderende geluid afgespeeld
 	void getMouseLocation(){
-		if (mouseX>x1 && mouseX<(x1+breedte1)&&mouseY<(lengte1)&&mouseY>(lengte2)) PlayAudio("player1");
-		if (mouseX>x2 && mouseX<(x2+breedte2)&&mouseY<(lengte2)) PlayAudio("player2");
-        if (mouseX>x3 && mouseX<(x3+breedte1)&&mouseY<(lengte1)&&mouseY>(lengte2)) PlayAudio("player3");
-		if (mouseX>x4 && mouseX<(x4+breedte2)&&mouseY<(lengte2)) PlayAudio("player4");
-  		if (mouseX>x5 && mouseX<(x5+breedte1)&&mouseY<(lengte1)&&mouseY>(lengte2)) PlayAudio("player5");
-		if (mouseX>x6 && mouseX<(x6+breedte1)&&mouseY<(lengte1)&&mouseY>(lengte2)) PlayAudio("player6");
-		if (mouseX>x7 && mouseX<(x7+breedte2)&&mouseY<(lengte2)) PlayAudio("player7");
-		if (mouseX>x8 && mouseX<(x8+breedte1)&&mouseY<(lengte1)&&mouseY>(lengte2)) PlayAudio("player8");
-		if (mouseX>x9 && mouseX<(x9+breedte2)&&mouseY<(lengte2)) PlayAudio("player9");
-  		if (mouseX>x10 && mouseX<(x10+breedte2)&&mouseY<(lengte1)&&mouseY>(lengte2)) PlayAudio("player10");
-		if (mouseX>x11 && mouseX<(x11+breedte2)&&mouseY<(lengte2)) PlayAudio("player11");
-  		if (mouseX>x12 && mouseX<(x12+breedte2)&&mouseY<(lengte1)&&mouseY>(lengte2)) PlayAudio("player12");
+		if(keyboard.mouseLeft){
+			this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
+		  this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
+			if (mouseX>x1+startX && mouseX<(x1+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(1);
+			if (mouseX>x2+startX && mouseX<(x2+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte2)) executeInput(2);
+			if (mouseX>x3+startX && mouseX<(x3+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(3);
+			if (mouseX>x4+startX && mouseX<(x4+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte2)) executeInput(4);
+			if (mouseX>x5+startX && mouseX<(x5+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(5);
+			if (mouseX>x6+startX && mouseX<(x6+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(6);
+			if (mouseX>x7+startX && mouseX<(x7+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte2)) executeInput(7);
+			if (mouseX>x8+startX && mouseX<(x8+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(8);
+			if (mouseX>x9+startX && mouseX<(x9+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte2)) executeInput(9);
+			if (mouseX>x10+startX && mouseX<(x10+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(10);
+			if (mouseX>x11+startX && mouseX<(x11+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte2)) executeInput(11);
+			if (mouseX>x12+startX && mouseX<(x12+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(12);
+		}
 	}
 
 	//deze methode cheked of er een toets is ingetikt en wordt de corresponderende geluid afgespeeld
 	void getKeyInput() {
-    	if (keyboard.a) {
-      		PlayAudio("player1");
-      		gedrukteToets="player1";
-    	}
-    	if (keyboard.b) {
-      		PlayAudio("player2");
-      		gedrukteToets="player2";
-    	}
-    	if (keyboard.c) { 
-      		PlayAudio("player3");
-      		gedrukteToets="player3";
-    	}
-    	if (keyboard.d) {
-      		PlayAudio("player4");
-      		gedrukteToets="player4";
-    	}
-    	if (keyboard.e) {
-      		PlayAudio("player5");
-      		gedrukteToets="player5";
-    	}
-    	if (keyboard.f) {
-      		PlayAudio("player6");
-      		gedrukteToets="player6";
-    	}
-    	if (keyboard.g) {
-      		PlayAudio("player7");
-      		gedrukteToets="player7";
-    	}
-    	if (keyboard.h) {
-      		PlayAudio("player8");
-      		gedrukteToets="player8";
-    	}
-    	if (keyboard.i) {
-      		PlayAudio("player9");
-      		gedrukteToets="player9";
-    	}
-    	if (keyboard.j) { 
-      		PlayAudio("player10");
-      		gedrukteToets="player10";
-    	}
-    	if (keyboard.k) {
-      		PlayAudio("player11");
-      		gedrukteToets="player11";
-    	}
-    	if (keyboard.l) {
-      		PlayAudio("player12");
-      		gedrukteToets="player12";
-    	}
-    }
+		if (keyboard.a && !keyboard.input) executeInput(1);
+		if (keyboard.b && !keyboard.input) executeInput(2);
+		if (keyboard.c && !keyboard.input) executeInput(3);
+		if (keyboard.d && !keyboard.input) executeInput(4);
+		if (keyboard.e && !keyboard.input) executeInput(5);
+		if (keyboard.f && !keyboard.input) executeInput(6);
+		if (keyboard.g && !keyboard.input) executeInput(7);
+		if (keyboard.h && !keyboard.input) executeInput(8);
+		if (keyboard.i && !keyboard.input) executeInput(9);
+		if (keyboard.j && !keyboard.input) executeInput(10);
+		if (keyboard.k && !keyboard.input) executeInput(11);
+		if (keyboard.l && !keyboard.input) executeInput(12);
+	}
+
+	void executeInput(int i){
+		keyboard.input = true;
+		PlayAudio("player" + i);
+		gedrukteToets="player" + i;
+		ColorPiano(i);
+		herkenGeluid();
+	}
 
 	//deze methode speeld geluid af en sluit alle andere geluiden af
 	void PlayAudio(String name){
@@ -148,43 +134,50 @@ class Piano{
 		}
 	}
 
+	void startTimer(){
+		timer1 = new Timer(1);
+	}
+
 	void randomGeluid() {
-    	gedrukteToets="leeg";
-    	int random1 = int(random(1, 12));
-    	feest = "player"+random1;
-    	println(feest);
-    	PlayAudio(feest);
-  	}
+		int random1 = int(random(1, 12));
+		geluid = "player"+random1;
+		println(geluid);
+		PlayAudio(geluid);
+		toetsen[waarde] = geluid;
+		waarde++;
+		ColorPiano(random1);
+	}
 
-  	void herkenGeluid() {
-    	if(gedrukteToets.equals(feest)==true && !succes) {
-      		println("Correct");
-      		succes = true;
-      		visible = false;
-    	}    
-  	}
+	void ColorPiano(int random1){
+		fill(color(255,0,0));
+		this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
+		this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
+		if(random1 == 1) rect(x1 + startX, 0 + startY, breedte1, lengte1);
+		if(random1 == 2) rect(x2 + startX, 0 + startY, breedte2, lengte2);
+		if(random1 == 3) rect(x3 + startX, 0 + startY, breedte1, lengte1);
+		if(random1 == 4) rect(x4 + startX, 0 + startY, breedte2, lengte2);
+		if(random1 == 5) rect(x5 + startX, 0 + startY, breedte1, lengte1);
+		if(random1 == 6) rect(x6 + startX, 0 + startY, breedte1, lengte1);
+		if(random1 == 7) rect(x7 + startX, 0 + startY, breedte2, lengte2);
+		if(random1 == 8) rect(x8 + startX, 0 + startY, breedte1, lengte1);
+		if(random1 == 9) rect(x9 + startX, 0 + startY, breedte1, lengte1);
+		if(random1 == 10) rect(x10 + startX, 0 + startY, breedte1, lengte1);
+		if(random1 == 11) rect(x11 + startX, 0 + startY, breedte2, lengte2);
+		if(random1 == 12) rect(x12 + startX, 0 + startY, breedte1, lengte1);
+	}
 
-	/*void randomGeluid() {
-    	Float random1 = random(1,12);
-    	int random2 = round(random1);
-    	String feest = "player"+random2;
-    	println(feest);
-    	PlayAudio(feest);
-    	
-    	timer1 = new Timer(3);
-    
-    	Float random3 = random(1,12);
-    	int random4 = round(random3);
-    	String feest2 = "player"+random4;
-    	println(feest2);
-    	PlayAudio(feest2);
-   
-    	timer2 = new Timer(3);
-    
-    	Float random5 = random(1,12);
-    	int random6 = round(random5);
-    	String feest3 = "player"+random6;
-    	println(feest3);
-    	PlayAudio(feest3); 
-  	}*/
+	void herkenGeluid() {
+		if(toetsen[huidigeToets].equals(gedrukteToets)==true && !succes) {
+			println("Correct");
+			huidigeToets++;
+		}
+		else if(toetsen[huidigeToets].equals(gedrukteToets)==false && !succes){
+			println("Fout");
+			huidigeToets = 0;
+		} 
+		if (huidigeToets >= maxAantalGeluiden && !succes){
+			succes = true;
+			visible = false;
+		} 
+	}
 }

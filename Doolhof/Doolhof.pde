@@ -20,36 +20,36 @@ ControlP5 cp5;
 String saveFilePath = "file/savefile.txt";
 
 void setup() { 
-    initInstance();
+  initInstance();
 }
 
 void initInstance(){
-    file = new ReadWriteFile(saveFilePath);
-    keyboard = new Keyboard();
-    minim = new Minim(this);
-    audio = new Audio(minim);
-    //audio.play("playerGameMusic");
-    cp5 = new ControlP5(this);
-    screen = new Screen(file, keyboard, minim, audio, cp5);
-}
+  file = new ReadWriteFile(saveFilePath);
+  keyboard = new Keyboard();
+  minim = new Minim(this);
+  audio = new Audio(minim);
+  //audio.play("playerGameMusic");
+  cp5 = new ControlP5(this);
+  screen = new Screen(file, keyboard, minim, audio, cp5);
+  }
 
-void draw() {
+  void draw() {
     screen.render();
-}
+  }
 
-void keyPressed() {
+  void keyPressed() {
     keyboard.checkKeyPressed();
-}
+  }
 
-void keyReleased() {
+  void keyReleased() {
     keyboard.checkKeyReleased();
-}
+  }
 
-void mousePressed() {
+  void mousePressed() {
     keyboard.checkMousePressed();
-}
+  }
 
-void mouseReleased() {
-    keyboard.checkMouseReleased();
-}
+  void mouseReleased() {
+   keyboard.checkMouseReleased();
+ }
 
