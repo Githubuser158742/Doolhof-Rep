@@ -49,6 +49,19 @@ class Piano{
 	void render(){	
 		this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
 		this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
+		renderPiano();
+		getInput();
+		if(timer1 !=null){
+			timer1.update();
+			if(timer1.time == timer1.length && huidigeGeluid < maxAantalGeluiden){
+				startTimer();
+				randomGeluid();
+				huidigeGeluid++;
+			}
+		}
+	}
+
+	void renderPiano(){
 		fill(255);
 		rect(x1 + startX, 0 + startY, breedte1, lengte1);
 		rect(x3 + startX, 0 + startY, breedte1, lengte1);
@@ -64,15 +77,6 @@ class Piano{
 		rect(x7 + startX, 0 + startY, breedte2, lengte2);
 		rect(x9 + startX, 0 + startY, breedte2, lengte2);
 		rect(x11 + startX, 0 + startY, breedte2, lengte2);
-		getInput();
-		if(timer1 !=null){
-			timer1.update();
-			if(timer1.time == timer1.length && huidigeGeluid < maxAantalGeluiden){
-				startTimer();
-				randomGeluid();
-				huidigeGeluid++;
-			}
-		}
 	}
 
 	//deze methode checked de keyinput mouse en keyboard
@@ -83,21 +87,22 @@ class Piano{
 
 	//deze methode checked muis locatie en wanneer er over de toets wordt gehoverd wordt corresponderende geluid afgespeeld
 	void getMouseLocation(){
-		if(keyboard.mouseLeft){
+		if(keyboard.mouseLeft && !keyboard.input){
+			keyboard.input = true;
 			this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
 		  this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
-			if (mouseX>x1+startX && mouseX<(x1+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(1);
-			if (mouseX>x2+startX && mouseX<(x2+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte2)) executeInput(2);
-			if (mouseX>x3+startX && mouseX<(x3+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(3);
-			if (mouseX>x4+startX && mouseX<(x4+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte2)) executeInput(4);
-			if (mouseX>x5+startX && mouseX<(x5+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(5);
-			if (mouseX>x6+startX && mouseX<(x6+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(6);
-			if (mouseX>x7+startX && mouseX<(x7+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte2)) executeInput(7);
-			if (mouseX>x8+startX && mouseX<(x8+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(8);
-			if (mouseX>x9+startX && mouseX<(x9+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte2)) executeInput(9);
-			if (mouseX>x10+startX && mouseX<(x10+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(10);
-			if (mouseX>x11+startX && mouseX<(x11+startX+breedte1)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte2)) executeInput(11);
-			if (mouseX>x12+startX && mouseX<(x12+startX+breedte2)&&mouseY>(0+startY)&&mouseY<(0+startY+lengte1)) executeInput(12);
+			if (mouseX>x1+startX && mouseX<(x1+startX+breedte1)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(1);
+			if (mouseX>x2+startX && mouseX<(x2+startX+breedte2)&&mouseY>(startY)&&mouseY<(startY+lengte2)) executeInput(2);
+			if (mouseX>x3+startX && mouseX<(x3+startX+breedte1)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(3);
+			if (mouseX>x4+startX && mouseX<(x4+startX+breedte2)&&mouseY>(startY)&&mouseY<(startY+lengte2)) executeInput(4);
+			if (mouseX>x5+startX && mouseX<(x5+startX+breedte1)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(5);
+			if (mouseX>x6+startX && mouseX<(x6+startX+breedte1)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(6);
+			if (mouseX>x7+startX && mouseX<(x7+startX+breedte2)&&mouseY>(startY)&&mouseY<(startY+lengte2)) executeInput(7);
+			if (mouseX>x8+startX && mouseX<(x8+startX+breedte1)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(8);
+			if (mouseX>x9+startX && mouseX<(x9+startX+breedte2)&&mouseY>(startY)&&mouseY<(startY+lengte2)) executeInput(9);
+			if (mouseX>x10+startX && mouseX<(x10+startX+breedte2)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(10);
+			if (mouseX>x11+startX && mouseX<(x11+startX+breedte1)&&mouseY>(startY)&&mouseY<(startY+lengte2)) executeInput(11);
+			if (mouseX>x12+startX && mouseX<(x12+startX+breedte2)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(12);
 		}
 	}
 
@@ -160,7 +165,7 @@ class Piano{
 		if(random1 == 6) rect(x6 + startX, 0 + startY, breedte1, lengte1);
 		if(random1 == 7) rect(x7 + startX, 0 + startY, breedte2, lengte2);
 		if(random1 == 8) rect(x8 + startX, 0 + startY, breedte1, lengte1);
-		if(random1 == 9) rect(x9 + startX, 0 + startY, breedte1, lengte1);
+		if(random1 == 9) rect(x9 + startX, 0 + startY, breedte2, lengte2);
 		if(random1 == 10) rect(x10 + startX, 0 + startY, breedte1, lengte1);
 		if(random1 == 11) rect(x11 + startX, 0 + startY, breedte2, lengte2);
 		if(random1 == 12) rect(x12 + startX, 0 + startY, breedte1, lengte1);
