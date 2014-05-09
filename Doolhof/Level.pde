@@ -137,6 +137,7 @@ void getMiniGame(int xWall, int yWall){
     piano.startTimer();
   } else if(game.equals("hue")){
     hue.visible = true;
+    hue.startTimer();
   } else{
     wallNewLocation(xWall, yWall);
   } 

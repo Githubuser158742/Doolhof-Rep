@@ -36,6 +36,7 @@ class Piano{
 	boolean succes = false;
 	String[] toetsen = new String[maxAantalGeluiden];
 	int huidigeToets = 0;
+	boolean tekstTonen = false;
 
 	//constructoren
 	Piano(Screen screen){
@@ -49,7 +50,7 @@ class Piano{
 	void render(){	
 		this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
 		this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
-		renderPiano();
+		renderPiano(0);
 		getInput();
 		if(timer1 !=null){
 			timer1.update();
@@ -61,22 +62,24 @@ class Piano{
 		}
 	}
 
-	void renderPiano(){
-		fill(255);
-		rect(x1 + startX, 0 + startY, breedte1, lengte1);
-		rect(x3 + startX, 0 + startY, breedte1, lengte1);
-		rect(x5 + startX, 0 + startY, breedte1, lengte1);
-		rect(x6 + startX, 0 + startY, breedte1, lengte1);
-		rect(x8 + startX, 0 + startY, breedte1, lengte1);
-		rect(x10 + startX, 0 + startY, breedte1, lengte1); 
-		rect(x12 + startX, 0 + startY, breedte1, lengte1);
+	void renderPiano(int toets){
+		if(toets != 1) renderRect(x1 + startX, 0 + startY, breedte1, lengte1, color(255,255,255));
+		if(toets != 2) renderRect(x3 + startX, 0 + startY, breedte1, lengte1, color(255,255,255));
+		if(toets != 3) renderRect(x5 + startX, 0 + startY, breedte1, lengte1, color(255,255,255));
+		if(toets != 4) renderRect(x6 + startX, 0 + startY, breedte1, lengte1, color(255,255,255));
+		if(toets != 5) renderRect(x8 + startX, 0 + startY, breedte1, lengte1, color(255,255,255));
+		if(toets != 6) renderRect(x10 + startX, 0 + startY, breedte1, lengte1, color(255,255,255)); 
+		if(toets != 7) renderRect(x12 + startX, 0 + startY, breedte1, lengte1, color(255,255,255));
+		if(toets != 8) renderRect(x2 + startX, 0 + startY, breedte2, lengte2, color(0,0,0));
+		if(toets != 9) renderRect(x4 + startX, 0 + startY, breedte2, lengte2, color(0,0,0));
+		if(toets != 10) renderRect(x7 + startX, 0 + startY, breedte2, lengte2, color(0,0,0));
+		if(toets != 11) renderRect(x9 + startX, 0 + startY, breedte2, lengte2, color(0,0,0));
+		if(toets != 12) renderRect(x11 + startX, 0 + startY, breedte2, lengte2, color(0,0,0));
+	}
 
-		fill(0);
-		rect(x2 + startX, 0 + startY, breedte2, lengte2);
-		rect(x4 + startX, 0 + startY, breedte2, lengte2);
-		rect(x7 + startX, 0 + startY, breedte2, lengte2);
-		rect(x9 + startX, 0 + startY, breedte2, lengte2);
-		rect(x11 + startX, 0 + startY, breedte2, lengte2);
+	void renderRect(int xStart, int yStart, int widthRect, int heightRect, color col){
+		fill(col);
+		rect(xStart, yStart, widthRect, heightRect);
 	}
 
 	//deze methode checked de keyinput mouse en keyboard
@@ -90,7 +93,7 @@ class Piano{
 		if(keyboard.mouseLeft && !keyboard.input){
 			keyboard.input = true;
 			this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
-		  this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
+			this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
 			if (mouseX>x1+startX && mouseX<(x1+startX+breedte1)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(1);
 			if (mouseX>x2+startX && mouseX<(x2+startX+breedte2)&&mouseY>(startY)&&mouseY<(startY+lengte2)) executeInput(2);
 			if (mouseX>x3+startX && mouseX<(x3+startX+breedte1)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(3);
@@ -154,21 +157,20 @@ class Piano{
 	}
 
 	void ColorPiano(int random1){
-		fill(color(255,0,0));
 		this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
 		this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
-		if(random1 == 1) rect(x1 + startX, 0 + startY, breedte1, lengte1);
-		if(random1 == 2) rect(x2 + startX, 0 + startY, breedte2, lengte2);
-		if(random1 == 3) rect(x3 + startX, 0 + startY, breedte1, lengte1);
-		if(random1 == 4) rect(x4 + startX, 0 + startY, breedte2, lengte2);
-		if(random1 == 5) rect(x5 + startX, 0 + startY, breedte1, lengte1);
-		if(random1 == 6) rect(x6 + startX, 0 + startY, breedte1, lengte1);
-		if(random1 == 7) rect(x7 + startX, 0 + startY, breedte2, lengte2);
-		if(random1 == 8) rect(x8 + startX, 0 + startY, breedte1, lengte1);
-		if(random1 == 9) rect(x9 + startX, 0 + startY, breedte2, lengte2);
-		if(random1 == 10) rect(x10 + startX, 0 + startY, breedte1, lengte1);
-		if(random1 == 11) rect(x11 + startX, 0 + startY, breedte2, lengte2);
-		if(random1 == 12) rect(x12 + startX, 0 + startY, breedte1, lengte1);
+		if(random1 == 1) renderRect(x1 + startX, 0 + startY, breedte1, lengte1, color(255,0,0));
+		if(random1 == 2) renderRect(x2 + startX, 0 + startY, breedte2, lengte2, color(255,0,0));
+		if(random1 == 3) renderRect(x3 + startX, 0 + startY, breedte1, lengte1, color(255,0,0));
+		if(random1 == 4) renderRect(x4 + startX, 0 + startY, breedte2, lengte2, color(255,0,0));
+		if(random1 == 5) renderRect(x5 + startX, 0 + startY, breedte1, lengte1, color(255,0,0));
+		if(random1 == 6) renderRect(x6 + startX, 0 + startY, breedte1, lengte1, color(255,0,0));
+		if(random1 == 7) renderRect(x7 + startX, 0 + startY, breedte2, lengte2, color(255,0,0));
+		if(random1 == 8) renderRect(x8 + startX, 0 + startY, breedte1, lengte1, color(255,0,0));
+		if(random1 == 9) renderRect(x9 + startX, 0 + startY, breedte2, lengte2, color(255,0,0));
+		if(random1 == 10) renderRect(x10 + startX, 0 + startY, breedte1, lengte1, color(255,0,0));
+		if(random1 == 11) renderRect(x11 + startX, 0 + startY, breedte2, lengte2, color(255,0,0));
+		if(random1 == 12) renderRect(x12 + startX, 0 + startY, breedte1, lengte1, color(255,0,0));
 	}
 
 	void herkenGeluid() {

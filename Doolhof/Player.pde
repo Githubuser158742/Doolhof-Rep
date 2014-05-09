@@ -26,6 +26,9 @@ class Player {
   boolean showTekst = false;
   int widthScreen = 0;
   int heightScreen = 0;
+  int xTekst = 0;
+  int yTekst = 0;
+  int tekstSize = 0;
 
   /*Player(String path, float x, float y, Keyboard keyboard){
     sprite = new Sprite(path);
@@ -80,6 +83,8 @@ class Player {
     level.getSpawnGoal();
     this.widthScreen = widthScreen;
     this.heightScreen = heightScreen;
+    hue.visible = false;
+    miniGame.index = 0;
 
     if(level.spawnX != 0 || level.spawnY != 0){
       this.xPlayer = level.spawnX;
@@ -190,24 +195,31 @@ void actions(int xLoc, int yLoc, int widthScreen, int heightScreen){
     file.dataList.add(data.fillDataList("tileMultiplier", sprite.tileMultiplier));
     file.dataList.add(data.fillDataList("playerLocation", screen.player.location));
     file.writeToFile(saveFilePath);
-    newTimer("Stats Saved.",3);
+    newTimer("Stats Saved.", 3, 10, 60, 20);
   }
   if(keyboard.saveImage && !keyboard.input){
     keyboard.input = true;
     level.saveImage(xLoc, yLoc, widthScreen, heightScreen);
-    newTimer("Image Saved.",3);
+    newTimer("Image Saved.", 3, 10, 60, 20);
+  }
+  if(piano.huidigeGeluid == piano.maxAantalGeluiden && !showTekst && !piano.tekstTonen){
+    piano.tekstTonen = true;
+    if(piano.tekstTonen) newTimer("Your Turn", 3, (screen.getWidthScreen() * screen.getScale()) / 2, (screen.getHeightScreen() * screen.getScale()) / 2, 30);
   }
 }
 
-void newTimer(String message, int length){
+void newTimer(String message, int length, int xLoc, int yLoc, int tSize){
   showTekst = true;
   tekst = message;
+  xTekst = xLoc;
+  yTekst = yLoc;
+  tekstSize = tSize;
   timer = new Timer(length);
 }
 
 void renderTekst(){
   if(showTekst){
-    printTekst(tekst, "Arial", 20, color(255,255,255), 10, 60);
+    printTekst(tekst, "Arial", tekstSize, color(255,255,255), xTekst, yTekst);
     timer.update();
     if(timer.time == timer.length) showTekst = false;
   }

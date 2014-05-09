@@ -104,6 +104,14 @@ class HueLight {
     update(); // apply new state
   }
 
+  public void turnOn(int hue, int sat, int brightness) {
+    this.lightOn = true;
+    this.hue = hue;
+    this.saturation = sat;
+    this.brightness = brightness;
+    update(); // apply new state
+  }
+
   /* 
    return data with lamp settings, JSON formatted string, to be send to hub
    sometimes after a while you get an error message that the light is off

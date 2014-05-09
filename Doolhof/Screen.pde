@@ -36,7 +36,7 @@ class Screen{
 		this.minim = minim;
 		this.audio = audio;
 		this.piano = new Piano(this);
-		this.hue = new Hue();
+		this.hue = new Hue(this);
 		this.miniGame = new MiniGame(piano, hue);
 		this.sprite = new Sprite(this);
 		this.cp5 = cp5;
