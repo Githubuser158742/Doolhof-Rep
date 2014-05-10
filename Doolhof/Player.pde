@@ -8,6 +8,7 @@ class Player {
   Screen screen;
   Data data;
   Piano piano;
+  Hue hue;
   Timer timer;
   String location;
   boolean reachedGoal = false;
@@ -25,6 +26,9 @@ class Player {
   boolean showTekst = false;
   int widthScreen = 0;
   int heightScreen = 0;
+  int xTekst = 0;
+  int yTekst = 0;
+  int tekstSize = 0;
 
   /*Player(String path, float x, float y, Keyboard keyboard){
     sprite = new Sprite(path);
@@ -47,6 +51,7 @@ class Player {
     this.sprite = sprite;
     this.miniGame = screen.getMiniGame();
     this.piano = screen.getPiano();
+    this.hue = screen.getHue();
     this.data = screen.getData();
     this.playerSprite = sprite.getSpriteSheet(path);
     playerSprite.resize(playerSprite.width / 2, playerSprite.height / 2);
@@ -67,6 +72,7 @@ class Player {
     this.sprite = sprite;
     this.miniGame = screen.getMiniGame();
     this.piano = screen.getPiano();
+    this.hue = screen.getHue();
     this.data = screen.getData();
     this.playerSprite = sprite.getSpriteSheet(path);
     playerSprite.resize(playerSprite.width / 2, playerSprite.height / 2);
@@ -77,6 +83,8 @@ class Player {
     level.getSpawnGoal();
     this.widthScreen = widthScreen;
     this.heightScreen = heightScreen;
+    hue.visible = false;
+    miniGame.index = 0;
 
     if(level.spawnX != 0 || level.spawnY != 0){
       this.xPlayer = level.spawnX;
@@ -98,14 +106,17 @@ class Player {
   }*/
 
   void render(int xLoc, int yLoc, int widthScreen, int heightScreen){
-    move();
-    interact();
     actions(xLoc, yLoc, widthScreen, heightScreen);
 
     int xx = widthScreen / 2;
     int yy = heightScreen / 2;
     level.render(xx - xLoc,yy - yLoc,0,0, widthScreen, heightScreen);
-    renderPlayer(xx,yy);
+
+    if(!piano.visible && !hue.visible){
+      renderPlayer(xx,yy);
+      move();
+    }
+    interact();
     renderTekst();
   }
 
@@ -116,101 +127,109 @@ class Player {
   void getPlayerSprite(String name){
     playerSpriteTile = name + anim;
     if(time % 8 == 0){
-       time = 0;
-       if(anim + 1 == 3) anim = 0;
-       anim++;
-    }
-    time++;
-  }
+     time = 0;
+     if(anim + 1 == 3) anim = 0;
+     anim++;
+   }
+   time++;
+ }
 
-  void move(){
-    if(keyboard.left){
-      getPlayerSprite("left");
-      if(!level.collisionNextTile((int)xPlayer-(int)speed, (int)yPlayer)) xPlayer -= speed;
-    }
-    if(keyboard.right){
-      getPlayerSprite("right");
-      if(!level.collisionNextTile((int)xPlayer+(int)speed, (int)yPlayer)) xPlayer += speed;
-    }
-    if(keyboard.up){
-      getPlayerSprite("up");
-      if(!level.collisionNextTile((int)xPlayer, (int)yPlayer-(int)speed)) yPlayer -= speed;
-    }
-    if(keyboard.down){
-      getPlayerSprite("down");
-      if(!level.collisionNextTile((int)xPlayer, (int)yPlayer+(int)speed)) yPlayer += speed;
-    }
-    reachedGoal();
+ void move(){
+  if(keyboard.left){
+    getPlayerSprite("left");
+    if(!level.collisionNextTile((int)xPlayer-(int)speed, (int)yPlayer)) xPlayer -= speed;
   }
+  if(keyboard.right){
+    getPlayerSprite("right");
+    if(!level.collisionNextTile((int)xPlayer+(int)speed, (int)yPlayer)) xPlayer += speed;
+  }
+  if(keyboard.up){
+    getPlayerSprite("up");
+    if(!level.collisionNextTile((int)xPlayer, (int)yPlayer-(int)speed)) yPlayer -= speed;
+  }
+  if(keyboard.down){
+    getPlayerSprite("down");
+    if(!level.collisionNextTile((int)xPlayer, (int)yPlayer+(int)speed)) yPlayer += speed;
+  }
+  reachedGoal();
+}
 
-  void reachedGoal(){
-    if((xPlayer == level.goalX) && (yPlayer == level.goalY) && (!reachedGoal)){
-      reachedGoal = true;
-      nextLevel();
+void reachedGoal(){
+  if((xPlayer == level.goalX) && (yPlayer == level.goalY) && (!reachedGoal)){
+    reachedGoal = true;
+    nextLevel();
+  }
+}
+
+void nextLevel(){
+  int index = int(str(location.charAt(5))) + 1;
+  String levelPath = "level" + index;
+  for(int i = 0; i < file.levelList.size();i++){
+    if(file.levelList.get(i).equals(levelPath)){
+      location = "level" + index;
+      level = new Level(dataPath + "sheets/" + location + ".png", widthScreen, heightScreen, screen, true);
+      xPlayer = 10;
+      yPlayer = 2;
+      reachedGoal = false;
     }
   }
+}
 
-  void nextLevel(){
-    int index = int(str(location.charAt(5))) + 1;
-    String levelPath = "level" + index;
-    for(int i = 0; i < file.levelList.size();i++){
-      if(file.levelList.get(i).equals(levelPath)){
-        location = "level" + index;
-        level = new Level(dataPath + "sheets/" + location + ".png", widthScreen, heightScreen, screen, true);
-        xPlayer = 10;
-        yPlayer = 2;
-        reachedGoal = false;
-      }
-    }
+void interact(){
+  if(keyboard.space && !keyboard.input && !piano.visible){
+    keyboard.input = true;
+    if(level.checkNextTile(xPlayer - 1, yPlayer,0,0,0)) level.getMiniGame(xPlayer - 1, yPlayer);
+    if(level.checkNextTile(xPlayer + 1, yPlayer,0,0,0)) level.getMiniGame(xPlayer + 1, yPlayer);
+    if(level.checkNextTile(xPlayer, yPlayer - 1,0,0,0)) level.getMiniGame(xPlayer, yPlayer - 1);
+    if(level.checkNextTile(xPlayer, yPlayer + 1,0,0,0)) level.getMiniGame(xPlayer, yPlayer + 1);
   }
+}
 
-  void interact(){
-    if(keyboard.space){
-      if(level.checkNextTile(xPlayer - 1, yPlayer,0,0,0)) level.getMiniGame(xPlayer - 1, yPlayer);
-      if(level.checkNextTile(xPlayer + 1, yPlayer,0,0,0)) level.getMiniGame(xPlayer + 1, yPlayer);
-      if(level.checkNextTile(xPlayer, yPlayer - 1,0,0,0)) level.getMiniGame(xPlayer, yPlayer - 1);
-      if(level.checkNextTile(xPlayer, yPlayer + 1,0,0,0)) level.getMiniGame(xPlayer, yPlayer + 1);
-    }
+void actions(int xLoc, int yLoc, int widthScreen, int heightScreen){
+  if(keyboard.save && !keyboard.input){
+    keyboard.input = true;
+    file.dataList = new ArrayList();
+    file.dataList.add(data.fillDataList("widthLevel", screen.getWidthScreen()));
+    file.dataList.add(data.fillDataList("heightLevel", screen.getHeightScreen()));
+    file.dataList.add(data.fillDataList("scale", screen.getScale()));
+    file.dataList.add(data.fillDataList("tileMultiplier", sprite.tileMultiplier));
+    file.dataList.add(data.fillDataList("playerLocation", screen.player.location));
+    file.writeToFile(saveFilePath);
+    newTimer("Stats Saved.", 3, 10, 60, 20);
   }
+  if(keyboard.saveImage && !keyboard.input){
+    keyboard.input = true;
+    level.saveImage(xLoc, yLoc, widthScreen, heightScreen);
+    newTimer("Image Saved.", 3, 10, 60, 20);
+  }
+  if(piano.huidigeGeluid == piano.maxAantalGeluiden && !showTekst && !piano.tekstTonen){
+    piano.tekstTonen = true;
+    if(piano.tekstTonen) newTimer("Your Turn", 3, (screen.getWidthScreen() * screen.getScale()) / 2, (screen.getHeightScreen() * screen.getScale()) / 2, 30);
+  }
+}
 
-  void actions(int xLoc, int yLoc, int widthScreen, int heightScreen){
-    if(keyboard.save && !keyboard.input){
-      keyboard.input = true;
-      file.dataList = new ArrayList();
-      file.dataList.add(data.fillDataList("widthLevel", screen.getWidthScreen()));
-      file.dataList.add(data.fillDataList("heightLevel", screen.getHeightScreen()));
-      file.dataList.add(data.fillDataList("scale", screen.getScale()));
-      file.dataList.add(data.fillDataList("tileMultiplier", sprite.tileMultiplier));
-      file.dataList.add(data.fillDataList("playerLocation", screen.player.location));
-      file.writeToFile(saveFilePath);
-      newTimer("Stats Saved.",3);
-    }
-    if(keyboard.saveImage && !keyboard.input){
-      keyboard.input = true;
-      level.saveImage(xLoc, yLoc, widthScreen, heightScreen);
-      newTimer("Image Saved.",3);
-    }
-  }
+void newTimer(String message, int length, int xLoc, int yLoc, int tSize){
+  showTekst = true;
+  tekst = message;
+  xTekst = xLoc;
+  yTekst = yLoc;
+  tekstSize = tSize;
+  timer = new Timer(length);
+}
 
-  void newTimer(String message, int length){
-      showTekst = true;
-      tekst = message;
-      timer = new Timer(length);
+void renderTekst(){
+  if(showTekst){
+    printTekst(tekst, "Arial", tekstSize, color(255,255,255), xTekst, yTekst);
+    timer.update();
+    if(timer.time == timer.length) showTekst = false;
   }
+}
 
-  void renderTekst(){
-    if(showTekst){
-      printTekst(tekst, "Arial", 20, color(255,255,255), 10, 60);
-      timer.update();
-      if(timer.time == timer.length) showTekst = false;
-    }
-  }
-
-  void printTekst(String tekst, String font, int size, color col, int xTekst, int yTekst){
-    PFont f = createFont(font,size,true);
-    textFont(f,size);
-    fill(col);
-    text(tekst,xTekst,yTekst);
-  }
+void printTekst(String tekst, String font, int size, color col, int xTekst, int yTekst){
+  PFont f = createFont(font,size,true);
+  textFont(f,size);
+  fill(col);
+  text(tekst,xTekst,yTekst);
+}
 }
 

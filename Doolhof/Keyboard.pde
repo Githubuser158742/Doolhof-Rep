@@ -13,21 +13,22 @@ class Keyboard {
     //constructoren
     //deze constructor vult lijst met alle begrensde keys
     Keyboard(){
-        keyList.add(" ");
-        keyList.add("s");
-        keyList.add("z");
-        keyList.add("a");
-        keyList.add("b");
-        keyList.add("c");
-        keyList.add("d");
-        keyList.add("e");
-        keyList.add("f");
-        keyList.add("g");
-        keyList.add("h");
-        keyList.add("i");
-        keyList.add("j");
-        keyList.add("k");
-        keyList.add("l");
+      keyList.add(" ");
+      keyList.add("s");
+      keyList.add("z");
+      keyList.add("a");
+      keyList.add("b");
+      keyList.add("c");
+      keyList.add("d");
+      keyList.add("e");
+      keyList.add("f");
+      keyList.add("g");
+      keyList.add("h");
+      keyList.add("i");
+      keyList.add("j");
+      keyList.add("k");
+      keyList.add("l");
+      keyList.add("mouseLeft");
     }
 
     //methods
@@ -35,12 +36,12 @@ class Keyboard {
     void checkKeyPressed(){
         //speciale keys
         if(key == CODED){
-            if (keyCode == LEFT) left = true;
-            if (keyCode == RIGHT) right = true;
-            if (keyCode == UP) up = true;
-            if (keyCode == DOWN) down = true;
+          if (keyCode == LEFT) left = true;
+          if (keyCode == RIGHT) right = true;
+          if (keyCode == UP) up = true;
+          if (keyCode == DOWN) down = true;
             //if (keyCode == VK_F2) saveImage = true;
-        }
+          }
         //normale keys
         if (key == ' ') space = true;
         if (key == 's') save = true;
@@ -57,18 +58,18 @@ class Keyboard {
         if (key == 'j') j = true;
         if (key == 'k') k = true;
         if (key == 'l') l = true;
-    }
+      }
 
     //deze methode kijkt over een key is losgelaten en zet dan de corresponderende variable op false
     void checkKeyReleased(){
         //speciale keys
         if(key == CODED){
-            if (keyCode == LEFT) left = false;
-            if (keyCode == RIGHT) right = false;
-            if (keyCode == UP) up = false;
-            if (keyCode == DOWN) down = false;
+          if (keyCode == LEFT) left = false;
+          if (keyCode == RIGHT) right = false;
+          if (keyCode == UP) up = false;
+          if (keyCode == DOWN) down = false;
             //if (keyCode == VK_F2) saveImage = false;
-        }
+          }
         //normale keys
         if (key == ' ') space = false;
         if (key == 's') save = false;
@@ -87,18 +88,22 @@ class Keyboard {
         if (key == 'l') l = false;
         //deze code overloopt alle begrensde keys en al de ingedrukte toets is losgelaten wordt de input variablr op false gezet.
         for(int i = 0; i < keyList.size();i++){
-            if(keyList.get(i).equals(str(key))) input = false;
+          if(keyList.get(i).equals(str(key))) input = false;
         }
-    }
+      }
 
     //deze methode checkt of er een toets van de muis is ingedrukt en zet dan de corresponderende op true
     void checkMousePressed(){
-        if(mouseButton == LEFT) mouseLeft = true;
+      if(mouseButton == LEFT) mouseLeft = true;
     }
 
     //deze methode checkt of er een toets van de muis is losgelaten en zet dan de corresponderende op false
     void checkMouseReleased(){
-        if(mouseButton == LEFT) mouseLeft = false;
+      if(mouseButton == LEFT) mouseLeft = false;
+
+      for(int i = 0; i < keyList.size();i++){
+        if(keyList.get(i).equals("mouseLeft")) input = false;
+      }
     } 
-}
+  }
 
