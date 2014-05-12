@@ -19,8 +19,8 @@ class Screen{
 	Hue hue;
 
 	//fields
-	int width = 300;
-	int height = 0;
+	int widthScreen = 300;
+	int heightScreen = 0;
 	int scale = 3;
 	int tileWidth = 0;
 	int tileHeight = 0;
@@ -47,14 +47,14 @@ class Screen{
 	void initScreen(){
 		file.readLevelSprites();
 		readFile(); 
-		if(height == 0) height = width / 16 * 9;  
-		size(width * scale, height * scale);
+		if(heightScreen == 0) this.heightScreen = widthScreen / 16 * 9;  
+		size(widthScreen * scale, heightScreen * scale);
 		background(100);
 
 		initPlayer();
 
-		tileWidth = (((width * scale) >> sprite.getTileSize()) / sprite.getTileMultiplier()) + 1;
-		tileHeight = (((height * scale) >> sprite.getTileSize()) / sprite.getTileMultiplier()) + 1;
+		this.tileWidth = (((widthScreen * scale) >> sprite.getTileSize()) / sprite.getTileMultiplier()) + 1;
+		this.tileHeight = (((heightScreen * scale) >> sprite.getTileSize()) / sprite.getTileMultiplier()) + 1;
 
 		initMainMenu();
 		this.credits = new Credits(this);
@@ -62,12 +62,12 @@ class Screen{
 	}
 
 	void initPlayer(){
-		if(lastUnlockedLevel.equals("level2")) player = new Player(dataPath + "sheets/player.png", 10, 10, dataPath + "sheets/" + lastUnlockedLevel + ".png", location, width * scale, height * scale, this, sprite);
-		else player = new Player(dataPath + "sheets/player.png", dataPath + "sheets/" + lastUnlockedLevel + ".png", location, width * scale, height * scale, this, sprite);
+		if(lastUnlockedLevel.equals("level2")) this.player = new Player(dataPath + "sheets/player.png", 10, 10, dataPath + "sheets/" + lastUnlockedLevel + ".png", location, widthScreen * scale, heightScreen * scale, this, sprite);
+		else this.player = new Player(dataPath + "sheets/player.png", dataPath + "sheets/" + lastUnlockedLevel + ".png", location, widthScreen * scale, heightScreen * scale, this, sprite);
 	}
 
 	void initMainMenu(){
-		mainMenu = new MainMenu(width * scale, height * scale, width * scale, height * scale, dataPath + "sheets/" + file.levelList.get(int(random(0, file.levelList.size()))) + ".png", this);
+		this.mainMenu = new MainMenu(widthScreen * scale, heightScreen * scale, widthScreen * scale, heightScreen * scale, dataPath + "sheets/" + file.levelList.get(int(random(0, file.levelList.size()))) + ".png", this);
 	}
 
 	//deze methode renderd alles naar scherm
@@ -77,7 +77,7 @@ class Screen{
 		background(100);
 		goToLocation();
   	//println(millis() - m);
-  	}
+  }
 
 	//deze methode kijkt welke locatie player is en gaat dan naar die locatie
 	void goToLocation(){
@@ -85,8 +85,8 @@ class Screen{
 		if(player.location.equals("setting")) setting.render();
 		if(player.location.equals("credits")) credits.render();
 		//if(player.location.equals("saven")) restart = true;
-		if(player.location.equals("new")) player.newLevel(dataPath + "sheets/" + file.levelList.get(0) + ".png", width * scale, height * scale, "level1");
-		if(player.location.equals("continue")) player.newLevel(dataPath + "sheets/" + lastUnlockedLevel + ".png", width * scale, height * scale, lastUnlockedLevel);
+		if(player.location.equals("new")) player.newLevel(dataPath + "sheets/" + file.levelList.get(0) + ".png", widthScreen * scale, heightScreen * scale, "level1");
+		if(player.location.equals("continue")) player.newLevel(dataPath + "sheets/" + lastUnlockedLevel + ".png", widthScreen * scale, heightScreen * scale, lastUnlockedLevel);
 
 		for(int i = 0; i < file.levelList.size();i++){
 			if(file.levelList.get(i).equals(player.location)) player.render(player.xPlayer, player.yPlayer, tileWidth, tileHeight);
@@ -99,8 +99,8 @@ class Screen{
 		for(int i = 0; i < file.dataList.size(); i++){
 			String name = file.dataList.get(i).name;
 			String value = file.dataList.get(i).value;
-			if(name.equals("widthLevel")) width = int(value);
-			if(name.equals("heightLevel")) height = int(value);
+			if(name.equals("widthLevel")) widthScreen = int(value);
+			if(name.equals("heightLevel")) heightScreen = int(value);
 			if(name.equals("scale")) scale = int(value);
 			if(name.equals("playerLocation")) lastUnlockedLevel = value;
 		}
@@ -164,11 +164,11 @@ class Screen{
 	}
 
 	int getWidthScreen(){
-		return width;
+		return widthScreen;
 	}
 
 	int getHeightScreen(){
-		return height;
+		return heightScreen;
 	}
 
 	int getScale(){

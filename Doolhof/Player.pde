@@ -1,4 +1,6 @@
 class Player {
+
+  //classes
   Sprite sprite;
   Level level;
   PImage playerSprite;
@@ -6,38 +8,28 @@ class Player {
   ReadWriteFile file;
   MiniGame miniGame;
   Screen screen;
+  Tekst tekst;
   Data data;
   Piano piano;
   Hue hue;
   Timer timer;
+
+  //fields
   String location;
   boolean reachedGoal = false;
   String dataPath = "data/";
-  /*float x = 0;
-  float y = 0;
-  float speed = 0.1;*/
   int xPlayer = 0;
   int yPlayer = 0;
   int speed = 1;
   int anim = 0;
   int time = 0;;
   String playerSpriteTile = "up0";
-  String tekst;
-  boolean showTekst = false;
   int widthScreen = 0;
   int heightScreen = 0;
-  int xTekst = 0;
-  int yTekst = 0;
-  int tekstSize = 0;
-
-  /*Player(String path, float x, float y, Keyboard keyboard){
-    sprite = new Sprite(path);
-    player = sprite.getSprite();
-    this.x = x;
-    this.y = y;
-    this.keyboard = keyboard;
-  }*/
-
+  boolean falseMessage = false;
+  
+  //constructoren
+  //deze constructor renderd de map en layer op specefieke locatie
   Player(String path, int xPlayer, int yPlayer, String levelPath, String location, int widthScreen, int heightScreen, Screen screen, Sprite sprite){
     this.level = new Level(levelPath, widthScreen, heightScreen, screen, true);
     this.screen = screen;
@@ -53,11 +45,12 @@ class Player {
     this.piano = screen.getPiano();
     this.hue = screen.getHue();
     this.data = screen.getData();
+    this.tekst = new Tekst();
     this.playerSprite = sprite.getSpriteSheet(path);
     playerSprite.resize(playerSprite.width / 2, playerSprite.height / 2);
   }
 
-
+  //deze constructor renderd de map en layer op locatie sprite
   Player(String path, String levelPath, String location, int widthScreen, int heightScreen, Screen screen, Sprite sprite){
     this.level = new Level(levelPath, widthScreen, heightScreen, screen, true);
     this.screen = screen;
@@ -74,17 +67,19 @@ class Player {
     this.piano = screen.getPiano();
     this.hue = screen.getHue();
     this.data = screen.getData();
+    this.tekst = new Tekst();
     this.playerSprite = sprite.getSpriteSheet(path);
     playerSprite.resize(playerSprite.width / 2, playerSprite.height / 2);
   }
 
+  //methods
   void newLevel(String levelPath, int widthScreen, int heightScreen, String location){
     this.level = new Level(levelPath, widthScreen, heightScreen, screen, true);
     level.getSpawnGoal();
     this.widthScreen = widthScreen;
     this.heightScreen = heightScreen;
-    hue.visible = false;
-    miniGame.index = 0;
+
+    reset();
 
     if(level.spawnX != 0 || level.spawnY != 0){
       this.xPlayer = level.spawnX;
@@ -96,14 +91,11 @@ class Player {
     this.location = location;
   }
 
-  /*void display(float xLoc, float yLoc, float width, float height){
-    move();
-    interact();
-    float xx = width / 2;
-    float yy = height / 2;
-    level.display(xx - xLoc,yy - yLoc,0,0, width, height); 
-    image(sprite.getSprite("water",sprite.getPixelSize(),sprite.getPixelSize()), (xx * sprite.getTileMultiplier()) << sprite.getTileSize(), (yy * sprite.getTileMultiplier()) << sprite.getTileSize(), sprite.getPixelSize()*sprite.getTileMultiplier(), sprite.getPixelSize()*sprite.getTileMultiplier());
-  }*/
+  void reset(){
+    hue.visible = false;
+    piano.visible = false;
+    miniGame.index = 0;
+  }
 
   void render(int xLoc, int yLoc, int widthScreen, int heightScreen){
     actions(xLoc, yLoc, widthScreen, heightScreen);
@@ -117,8 +109,23 @@ class Player {
       move();
     }
     interact();
-    renderTekst();
-  }
+    tekst.render("Arial", color(255,255,255), timer);
+
+    if(piano.huidigeGeluid == piano.maxAantalGeluiden && !tekst.showTekst && !piano.start && !piano.falseMessage){
+      piano.start = true;
+      newTimer("Jouw Beurt!", 3, ((screen.getWidthScreen() * screen.getScale()) / 2) - 80, ((screen.getHeightScreen() * screen.getScale()) / 2) - 110, 30, 200, 50, true);
+    }
+
+    if(piano.succes && !piano.correct) {
+      piano.correct = true;
+      newTimer("Correct.", 3, ((screen.getWidthScreen() * screen.getScale()) / 2) - 80, ((screen.getHeightScreen() * screen.getScale()) / 2) - 110, 30, 200, 50, true);
+    }
+
+    if(piano.falseMessage) {
+      piano.falseMessage = false;
+      newTimer("Probeer Opnieuw.", 3, ((screen.getWidthScreen() * screen.getScale()) / 2) - 130, ((screen.getHeightScreen() * screen.getScale()) / 2) - 110, 30, 300, 50, true);
+    }
+  } 
 
   void renderPlayer(int x, int y){
     image(sprite.getSprite(playerSpriteTile, sprite.getPixelSize(),sprite.getPixelSize(), playerSprite), (x * sprite.getTileMultiplier()) << sprite.getTileSize(), (y * sprite.getTileMultiplier()) << sprite.getTileSize(), sprite.getPixelSize()*sprite.getTileMultiplier(), sprite.getPixelSize()*sprite.getTileMultiplier());
@@ -134,6 +141,7 @@ class Player {
    time++;
  }
 
+ //deze methode verplaats de map en steld de juiste sprite voor player in
  void move(){
   if(keyboard.left){
     getPlayerSprite("left");
@@ -171,6 +179,7 @@ void nextLevel(){
       xPlayer = 10;
       yPlayer = 2;
       reachedGoal = false;
+      reset();
     }
   }
 }
@@ -185,7 +194,9 @@ void interact(){
   }
 }
 
+//deze methode overloopt alle acties een player kan doen
 void actions(int xLoc, int yLoc, int widthScreen, int heightScreen){
+  //save game
   if(keyboard.save && !keyboard.input){
     keyboard.input = true;
     file.dataList = new ArrayList();
@@ -195,41 +206,32 @@ void actions(int xLoc, int yLoc, int widthScreen, int heightScreen){
     file.dataList.add(data.fillDataList("tileMultiplier", sprite.tileMultiplier));
     file.dataList.add(data.fillDataList("playerLocation", screen.player.location));
     file.writeToFile(saveFilePath);
-    newTimer("Stats Saved.", 3, 10, 60, 20);
+    newTimer("Gegevens Opgeslagen", 3, 10, 60, 20, 0, 0, false);
   }
+  //maakt een printscreen
   if(keyboard.saveImage && !keyboard.input){
     keyboard.input = true;
     level.saveImage(xLoc, yLoc, widthScreen, heightScreen);
-    newTimer("Image Saved.", 3, 10, 60, 20);
+    newTimer("Screenshot Opgeslagen", 3, 10, 60, 20, 0, 0, false);
   }
-  if(piano.huidigeGeluid == piano.maxAantalGeluiden && !showTekst && !piano.tekstTonen){
-    piano.tekstTonen = true;
-    if(piano.tekstTonen) newTimer("Your Turn", 3, (screen.getWidthScreen() * screen.getScale()) / 2, (screen.getHeightScreen() * screen.getScale()) / 2, 30);
+  // naar hoofdmenu
+  if(keyboard.m && !keyboard.input){
+    keyboard.input = true;
+    location = "mainMenu";
   }
 }
 
-void newTimer(String message, int length, int xLoc, int yLoc, int tSize){
-  showTekst = true;
-  tekst = message;
-  xTekst = xLoc;
-  yTekst = yLoc;
-  tekstSize = tSize;
+//deze methode maakt een nieuwe timer aan om tekst te renderen
+void newTimer(String message, int length, int xTekst, int yTekst, int fontSize, int widthTekst, int heightTekst, boolean background){
+  tekst.showTekst = true;
+  tekst.message = message;
+  tekst.xTekst = xTekst;
+  tekst.yTekst = yTekst;
+  tekst.fontSize = fontSize;
+  tekst.widthTekst = widthTekst;
+  tekst.heightTekst = heightTekst;
+  tekst.background = background;
   timer = new Timer(length);
-}
-
-void renderTekst(){
-  if(showTekst){
-    printTekst(tekst, "Arial", tekstSize, color(255,255,255), xTekst, yTekst);
-    timer.update();
-    if(timer.time == timer.length) showTekst = false;
-  }
-}
-
-void printTekst(String tekst, String font, int size, color col, int xTekst, int yTekst){
-  PFont f = createFont(font,size,true);
-  textFont(f,size);
-  fill(col);
-  text(tekst,xTekst,yTekst);
 }
 }
 

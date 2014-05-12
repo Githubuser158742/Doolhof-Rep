@@ -79,15 +79,15 @@ class Button{
 		PFont f = createFont(letterType,size,true); //aliasing
 		fill(background);
 		rect(xStart,yStart,widthButton,heightButton);
-    	textFont(f,size);
-    	fill(tekstColor);
-    	if(centerTekst){
-    		textAlign(CENTER, CENTER);
-    		text(name,xStart + (widthButton / 2) + textXStart,yStart + (heightButton / 2) + textYStart);
-    	}else{
-    		textAlign(LEFT);
-    		text(name,xStart + textXStart,yStart + textYStart);
-    	}
+		textFont(f,size);
+		fill(tekstColor);
+		if(centerTekst){
+			textAlign(CENTER, CENTER);
+			text(name,xStart + (widthButton / 2) + textXStart,yStart + (heightButton / 2) + textYStart);
+		}else{
+			textAlign(LEFT);
+			text(name,xStart + textXStart,yStart + textYStart);
+		}
 	}
 
 	//deze methode zal kijken wat voor soort input er op gechecked worden
@@ -97,20 +97,35 @@ class Button{
 
 	//deze methode kijk naar mouse input
 	void getMouseLocation(String groupName){
-		if(keyboard.mouseLeft) checkLocation(groupName);
+		checkLocation(groupName);
 	}
 
 	//deze methode zal de muis mocatie opvragen en kijken op welke button er is geklikt en dan de locatie meegeven naar player
 	void checkLocation(String groupName){
+		boolean mouseOver = false;
 		for(int i = 0; i < buttonList.size(); i++){
 			if((buttonList.get(i).group == groupName) && (buttonList.get(i).enableButton)){
+				String name = buttonList.get(i).name;
 				int xStart = buttonList.get(i).xStart;
 				int yStart = buttonList.get(i).yStart;
 				int widthButton = buttonList.get(i).widthButton;
 				int heightButton = buttonList.get(i).heightButton;
+				color background = buttonList.get(i).background;
+				color tekstColor = buttonList.get(i).tekstColor;
+				int size = buttonList.get(i).size;
+				int textXStart = buttonList.get(i).textXStart;
+				int textYStart = buttonList.get(i).textYStart;
+				String letterType = buttonList.get(i).letterType;
+				boolean centerTekst = buttonList.get(i).centerTekst;
 				String location = buttonList.get(i).location;
-				if((mouseX > xStart && mouseX < xStart + widthButton) && (mouseY > yStart && mouseY < yStart + heightButton)) player.location = location;
+				if((mouseX > xStart && mouseX < xStart + widthButton) && (mouseY > yStart && mouseY < yStart + heightButton)){
+					cursor(HAND);
+					mouseOver = true;
+					renderButtons(name, xStart, yStart, widthButton, heightButton, color(255,0,0), tekstColor, size, textXStart, textYStart, letterType, centerTekst);
+					if(keyboard.mouseLeft) player.location = location;
+				}
 			}
 		}
+		if(!mouseOver) cursor(ARROW);
 	}
 }

@@ -3,7 +3,7 @@ class Keyboard {
     //fields
     boolean left, right, up, down = false; //arow key input
     boolean save, saveImage = false; //save data player, save current screen
-    boolean a, b, c, d, e, f, g, h, i, j, k, l = false;
+    boolean a, b, c, d, e, f, g, h, i, j, k, l, m = false;
     boolean space = false; //interactie met bepaaldee voorwerpen
     boolean mouseLeft = false; //mouse input left
     boolean input = false; //begrenzer zodat er maar 1 x een actie wordt uitgevoerd per render
@@ -28,6 +28,7 @@ class Keyboard {
       keyList.add("j");
       keyList.add("k");
       keyList.add("l");
+      keyList.add("m");
       keyList.add("mouseLeft");
     }
 
@@ -58,6 +59,7 @@ class Keyboard {
         if (key == 'j') j = true;
         if (key == 'k') k = true;
         if (key == 'l') l = true;
+        if (key == 'm') m = true;
       }
 
     //deze methode kijkt over een key is losgelaten en zet dan de corresponderende variable op false
@@ -86,6 +88,7 @@ class Keyboard {
         if (key == 'j') j = false;
         if (key == 'k') k = false;
         if (key == 'l') l = false;
+        if (key == 'm') m = false;
         //deze code overloopt alle begrensde keys en al de ingedrukte toets is losgelaten wordt de input variablr op false gezet.
         for(int i = 0; i < keyList.size();i++){
           if(keyList.get(i).equals(str(key))) input = false;

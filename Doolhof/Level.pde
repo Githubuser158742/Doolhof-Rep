@@ -25,7 +25,7 @@ class Level {
     this.piano = screen.getPiano();
     this.hue = screen.getHue();
     map = sprite.getSpriteSheet(path);
-    spriteSheet = sprite.getSpriteSheet("data/sheets/sheet.png");
+    spriteSheet = sprite.getSpriteSheet("data/sheets/sheet" + int(random(1,3)) + ".png");
     if(playable) {
       this.player = screen.getPlayer();
       menuBar = new MenuBar(widthScreen, heightScreen, screen);

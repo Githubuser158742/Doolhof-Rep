@@ -4,6 +4,7 @@ class Piano{
 	Audio audio;
 	Keyboard keyboard;
 	Screen screen;
+	Timer timer1;
 
 	//fields
 	int breedte1 = 30;
@@ -27,7 +28,6 @@ class Piano{
 	int startX = 0;
 	int startY = 0;
 	boolean visible = false;
-	Timer timer1;
 	int maxAantalGeluiden = 3;
 	int huidigeGeluid = 0;
 	int waarde = 0;
@@ -36,7 +36,9 @@ class Piano{
 	boolean succes = false;
 	String[] toetsen = new String[maxAantalGeluiden];
 	int huidigeToets = 0;
-	boolean tekstTonen = false;
+	boolean start = false;
+	boolean correct = false;
+	boolean falseMessage = false;
 
 	//constructoren
 	Piano(Screen screen){
@@ -175,11 +177,10 @@ class Piano{
 
 	void herkenGeluid() {
 		if(toetsen[huidigeToets].equals(gedrukteToets)==true && !succes) {
-			println("Correct");
 			huidigeToets++;
 		}
 		else if(toetsen[huidigeToets].equals(gedrukteToets)==false && !succes){
-			println("Fout");
+			falseMessage = true;
 			huidigeToets = 0;
 		} 
 		if (huidigeToets >= maxAantalGeluiden && !succes){

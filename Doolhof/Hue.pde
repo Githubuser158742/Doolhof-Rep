@@ -19,9 +19,9 @@ class Hue{
 	Hue(Screen screen){
 		this.screen = screen;
 		this.keyboard = screen.getKeyboard();
-		hub = new HueHub();  
+		/*hub = new HueHub();  
 		light = new HueLight(1, hub);
-		light.turnOff();
+		light.turnOff();*/
 		colorArray = new String[6];
 		colorGameArray = new String[3];
 		colorArray[0] = "red";

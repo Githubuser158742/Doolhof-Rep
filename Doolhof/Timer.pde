@@ -13,6 +13,6 @@ class Timer{
 	//method update()
 	// verhoogt de time variable met 1 per kerr de methode wordt aangeroepen
 	void update(){
-		time++;
+		this.time++;
 	}
 }
