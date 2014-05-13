@@ -12,16 +12,18 @@ class Hue{
 	boolean on = false;
 	int getal = 0;
 	int index = 0;
+	int inputIndex = 0;
 	int aatalColors = 3;
 	String col = "";
 	boolean lightOn = false;
+	boolean succes = false;
 
 	Hue(Screen screen){
 		this.screen = screen;
 		this.keyboard = screen.getKeyboard();
-		/*hub = new HueHub();  
-		light = new HueLight(1, hub);
-		light.turnOff();*/
+		hub = new HueHub(); 
+		light = new HueLight(3, hub);
+		light.turnOff();
 		colorArray = new String[6];
 		colorGameArray = new String[3];
 		colorArray[0] = "red";
@@ -34,6 +36,7 @@ class Hue{
 		for(int i = 0; i < aatalColors; i++){
 			int c = int(random(0,colorArray.length));
 			colorGameArray[i] = colorArray[c];
+			println(colorArray[c]);
 		}
 	}
 
@@ -52,9 +55,11 @@ class Hue{
 	}
 
 	void render(){
+		if(succes) println("succes");
 		getKeyInput();
 		if(timer1 !=null){
 			timer1.update();
+			renderRect();
 			if(timer1.time == timer1.length && index < aatalColors + 1){
 				startTimer();
 				if(!lightOn && index < aatalColors){
@@ -66,10 +71,13 @@ class Hue{
 				}else{
 					lightOn = false;
 					light.turnOff();
+					col = "";
 				}
 			}
 		}
+	}
 
+	void renderRect(){
 		if(col.equals("red")) fill(color(255,0,0));
 		if(col.equals("oranje")) fill(color(255,140,0));
 		if(col.equals("blue")) fill(color(0,0,255));
@@ -90,12 +98,54 @@ class Hue{
 	}
 
 	void executeInput(int key){
+		keyboard.input = true;
 		if(key == 0) light.turnOff();
-		if(key == 1) light.turnOn(0,255,255);
-		if(key == 2) light.turnOn(10000,255,255);
-		if(key == 3) light.turnOn(45000,255,255);
-		if(key == 4) light.turnOn(20000,255,255);
-		if(key == 5) light.turnOn(30000,255,255);
-		if(key == 6) light.turnOn(55000,255,255);
+		if(key == 1) {
+			if(colorGameArray[inputIndex].equals("red")) incrementIndex();
+			else inputIndex = 0;
+			light.turnOn(0,255,255);
+			renderRect();
+			col = "red";
+		}
+		if(key == 2){
+			if(colorGameArray[inputIndex].equals("oranje")) incrementIndex();
+			else inputIndex = 0;
+			light.turnOn(10000,255,255);
+			renderRect();
+			col = "oranje";
+		}
+		if(key == 3){
+			if(colorGameArray[inputIndex].equals("blue")) incrementIndex();
+			else inputIndex = 0;
+			light.turnOn(45000,255,255);
+			renderRect();
+			col = "blue";
+		} 
+		if(key == 4){
+			if(colorGameArray[inputIndex].equals("yellow")) incrementIndex();
+			else inputIndex = 0;
+			light.turnOn(20000,255,255);
+			renderRect();
+			col = "yellow";
+		} 
+		if(key == 5){
+			if(colorGameArray[inputIndex].equals("white")) incrementIndex();
+			else inputIndex = 0;
+			light.turnOn(30000,255,255);
+			renderRect();
+			col = "white";
+		} 
+		if(key == 6){
+			if(colorGameArray[inputIndex].equals("purple")) incrementIndex();
+			else inputIndex = 0;
+			light.turnOn(55000,255,255);
+			renderRect();
+			col = "purple";
+		}
+	}
+
+	void incrementIndex(){
+		if(inputIndex < aatalColors-1) inputIndex++;
+		else succes = true;
 	}
 }

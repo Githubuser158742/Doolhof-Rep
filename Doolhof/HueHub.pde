@@ -1,6 +1,6 @@
 class HueHub {
   private static final String KEY = "alisioputman"; // "secret" key/hash
-  private static final String IP = "172.23.191.3"; // ip address of the hub
+  private static final String IP = "172.23.191.2"; // ip address of the hub
   private static final boolean ONLINE = true; // for debugging purposes, set to true to allow communication
 
   private DefaultHttpClient httpClient; // http client to send/receive data
