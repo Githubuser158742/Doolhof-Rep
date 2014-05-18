@@ -14,8 +14,8 @@ class MiniGame{
 	MiniGame(Piano piano, Hue hue){
 		this.piano = piano;
 		this.hue = hue;
-		miniGameList.add("hue");
 		miniGameList.add("piano");
+		miniGameList.add("hue");
 	}
 
 	void incrementIndex(){

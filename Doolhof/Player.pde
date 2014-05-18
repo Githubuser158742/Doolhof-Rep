@@ -172,13 +172,16 @@ void reachedGoal(){
 void nextLevel(){
   int index = int(str(location.charAt(5))) + 1;
   String levelPath = "level" + index;
+  boolean found = false;
   for(int i = 0; i < file.levelList.size();i++){
-    if(file.levelList.get(i).equals(levelPath)){
-      location = "level" + index;
+    if(file.levelList.get(i).equals(levelPath) && !found){
+      location = "level" + index;;
       level = new Level(dataPath + "sheets/" + location + ".png", widthScreen, heightScreen, screen, true);
-      xPlayer = 10;
-      yPlayer = 2;
+      level.getSpawnGoal();
+      this.xPlayer = level.spawnX;
+      this.yPlayer = level.spawnY;
       reachedGoal = false;
+      found = true;
       reset();
     }
   }

@@ -119,12 +119,15 @@ void render(int xStart, int yStart, int xRender, int yRender, int width, int hei
      }
    }
  }
- if(menuBar != null) menuBar.render();
- if(piano.visible){
-  piano.render();
-  if(piano.succes) wallNewLocation(xW, yW);
-} 
-if(hue.visible) hue.render();
+  if(menuBar != null) menuBar.render();
+  if(piano.visible){
+    piano.render();
+    if(piano.succes) wallNewLocation(xW, yW);
+  } 
+  if(hue.visible){
+     hue.render();
+     if(hue.succes) wallNewLocation(xW, yW);
+  }
 }
 
 void getMiniGame(int xWall, int yWall){

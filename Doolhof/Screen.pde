@@ -62,8 +62,9 @@ class Screen{
 	}
 
 	void initPlayer(){
-		if(lastUnlockedLevel.equals("level2")) this.player = new Player(dataPath + "sheets/player.png", 10, 10, dataPath + "sheets/" + lastUnlockedLevel + ".png", location, widthScreen * scale, heightScreen * scale, this, sprite);
-		else this.player = new Player(dataPath + "sheets/player.png", dataPath + "sheets/" + lastUnlockedLevel + ".png", location, widthScreen * scale, heightScreen * scale, this, sprite);
+		//if(lastUnlockedLevel.equals("level2")) this.player = new Player(dataPath + "sheets/player.png", 10, 10, dataPath + "sheets/" + lastUnlockedLevel + ".png", location, widthScreen * scale, heightScreen * scale, this, sprite);
+		//else this.player = new Player(dataPath + "sheets/player.png", dataPath + "sheets/" + lastUnlockedLevel + ".png", location, widthScreen * scale, heightScreen * scale, this, sprite);
+		this.player = new Player(dataPath + "sheets/player.png", dataPath + "sheets/" + lastUnlockedLevel + ".png", location, widthScreen * scale, heightScreen * scale, this, sprite);
 	}
 
 	void initMainMenu(){
@@ -81,7 +82,10 @@ class Screen{
 
 	//deze methode kijkt welke locatie player is en gaat dan naar die locatie
 	void goToLocation(){
-		if(player.location.equals("mainMenu")) mainMenu.render(tileWidth, tileHeight);
+		if(player.location.equals("mainMenu")) {
+			player.reset();
+			mainMenu.render(tileWidth, tileHeight);
+		}
 		if(player.location.equals("setting")) setting.render();
 		if(player.location.equals("credits")) credits.render();
 		//if(player.location.equals("saven")) restart = true;

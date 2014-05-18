@@ -46,11 +46,9 @@ class Keyboard {
           }
         //normale keys
         if (key == ' ') space = true;
-        if (key == 's') s = true;
-        //if (key == 's') save = true;
-        //if (key == 'z') saveImage = true;
-        if (key == 'z') w = true;
-        if (key == 'q') a = true;
+        if (key == 's') save = true;
+        if (key == 'z') saveImage = true;
+        if (key == 'a') a = true;
         if (key == 'b') b = true;
         if (key == 'c') c = true;
         if (key == 'd') d = true;
@@ -78,11 +76,9 @@ class Keyboard {
           }
         //normale keys
         if (key == ' ') space = false;
-        if (key == 's') s = false;
-        //if (key == 's') save = false;
-        //if (key == 'z') saveImage = false;
-        if (key == 'z') w = false;
-        if (key == 'q') a = false;
+        if (key == 's') save = false;
+        if (key == 'z') saveImage = false;
+        if (key == 'a') a = false;
         if (key == 'b') b = false;
         if (key == 'c') c = false;
         if (key == 'd') d = false;

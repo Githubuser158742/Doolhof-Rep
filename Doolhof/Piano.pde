@@ -51,7 +51,7 @@ class Piano{
 	//deze methode renderd de piano op scherm
 	void render(){	
 		this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
-		this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
+		this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2) + 50;
 		renderPiano(0);
 		getInput();
 		if(timer1 !=null){
@@ -65,6 +65,10 @@ class Piano{
 	}
 
 	void renderPiano(int toets){
+		renderRect(x1 + startX - 20, startY + lengte1, (breedte1 * 7) + 40, 20, color(0,0,0));
+		renderRect(x1 + startX - 20, startY - 60, (breedte1 * 7) + 40, 60, color(0,0,0));
+		renderRect(x1 + startX - 20, startY - 20, 20, lengte1 + 20, color(0,0,0));
+		renderRect(x1 + startX + (breedte1 * 7), startY - 20, 20, lengte1 + 20, color(0,0,0));
 		if(toets != 1) renderRect(x1 + startX, 0 + startY, breedte1, lengte1, color(255,255,255));
 		if(toets != 2) renderRect(x3 + startX, 0 + startY, breedte1, lengte1, color(255,255,255));
 		if(toets != 3) renderRect(x5 + startX, 0 + startY, breedte1, lengte1, color(255,255,255));
@@ -94,8 +98,6 @@ class Piano{
 	void getMouseLocation(){
 		if(keyboard.mouseLeft && !keyboard.input){
 			keyboard.input = true;
-			this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
-			this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
 			if (mouseX>x1+startX && mouseX<(x1+startX+breedte1)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(1);
 			if (mouseX>x2+startX && mouseX<(x2+startX+breedte2)&&mouseY>(startY)&&mouseY<(startY+lengte2)) executeInput(2);
 			if (mouseX>x3+startX && mouseX<(x3+startX+breedte1)&&mouseY>(startY+(lengte1/2))&&mouseY<(startY+lengte1)) executeInput(3);
@@ -159,8 +161,6 @@ class Piano{
 	}
 
 	void ColorPiano(int random1){
-		this.startX = (screen.getWidthScreen() * screen.getScale() / 2) - (widthPiano / 2);
-		this.startY = (screen.getHeightScreen() * screen.getScale() / 2) - (heightPiano / 2);
 		if(random1 == 1) renderRect(x1 + startX, 0 + startY, breedte1, lengte1, color(255,0,0));
 		if(random1 == 2) renderRect(x2 + startX, 0 + startY, breedte2, lengte2, color(255,0,0));
 		if(random1 == 3) renderRect(x3 + startX, 0 + startY, breedte1, lengte1, color(255,0,0));
