@@ -19,6 +19,9 @@ class Hue{
 	boolean lightOn = false;
 	boolean succes = false;
 	boolean hueOnline = false;
+	boolean start = false;
+	boolean correct = false;
+	boolean falseMessage = false;
 
 	Hue(Screen screen){
 		this.screen = screen;
@@ -30,14 +33,27 @@ class Hue{
 			light.turnOff();
 		}
 		colorArray = new String[6];
-		colorGameArray = new String[3];
 		colorArray[0] = "red";
 		colorArray[1] = "oranje";
 		colorArray[2] = "blue";
 		colorArray[3] = "white";
 		colorArray[4] = "yellow";
 		colorArray[5] = "purple";
+	}
 
+	void init(){
+		colorGameArray = new String[3];
+		on = false;
+		getal = 0;
+		index = 0;
+		inputIndex = 0;
+		col = "";
+		lightOn = false;
+		succes = false;
+		hueOnline = false;
+		start = false;
+		correct = false;
+		falseMessage = false;
 		for(int i = 0; i < aatalColors; i++){
 			int c = int(random(0,colorArray.length));
 			colorGameArray[i] = colorArray[c];
@@ -114,42 +130,60 @@ class Hue{
 		if(key == 0 && hueOnline) light.turnOff();
 		if(key == 1) {
 			if(colorGameArray[inputIndex].equals("red")) incrementIndex();
-			else inputIndex = 0;
+			else {
+				inputIndex = 0;
+				falseMessage = true;
+			}
 			if(hueOnline) light.turnOn(0,255,255);
 			renderRect();
 			col = "red";
 		}
 		if(key == 2){
 			if(colorGameArray[inputIndex].equals("oranje")) incrementIndex();
-			else inputIndex = 0;
+			else {
+				inputIndex = 0;
+				falseMessage = true;
+			}
 			if(hueOnline) light.turnOn(10000,255,255);
 			renderRect();
 			col = "oranje";
 		}
 		if(key == 3){
 			if(colorGameArray[inputIndex].equals("blue")) incrementIndex();
-			else inputIndex = 0;
+			else {
+				inputIndex = 0;
+				falseMessage = true;
+			}
 			if(hueOnline) light.turnOn(45000,255,255);
 			renderRect();
 			col = "blue";
 		} 
 		if(key == 4){
 			if(colorGameArray[inputIndex].equals("yellow")) incrementIndex();
-			else inputIndex = 0;
+			else {
+				inputIndex = 0;
+				falseMessage = true;
+			}
 			if(hueOnline) light.turnOn(20000,255,255);
 			renderRect();
 			col = "yellow";
 		} 
 		if(key == 5){
 			if(colorGameArray[inputIndex].equals("white")) incrementIndex();
-			else inputIndex = 0;
+			else {
+				inputIndex = 0;
+				falseMessage = true;
+			}
 			if(hueOnline) light.turnOn(30000,255,255);
 			renderRect();
 			col = "white";
 		} 
 		if(key == 6){
 			if(colorGameArray[inputIndex].equals("purple")) incrementIndex();
-			else inputIndex = 0;
+			else {
+				inputIndex = 0;
+				falseMessage = true;
+			}
 			if(hueOnline) light.turnOn(55000,255,255);
 			renderRect();
 			col = "purple";

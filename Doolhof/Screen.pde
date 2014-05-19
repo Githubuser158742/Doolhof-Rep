@@ -17,6 +17,7 @@ class Screen{
 	Credits credits;
 	ControlP5 cp5;
 	Hue hue;
+	Button button;
 
 	//fields
 	int widthScreen = 300;
@@ -40,6 +41,7 @@ class Screen{
 		this.miniGame = new MiniGame(piano, hue);
 		this.sprite = new Sprite(this);
 		this.cp5 = cp5;
+		button = new Button(this);
 		initScreen();
 	}
 
@@ -113,6 +115,10 @@ class Screen{
 	//functies
 	Player getPlayer(){
 		return player;
+	}
+
+	Button getButton(){
+		return button;
 	}
 
 	Setting getSetting(){

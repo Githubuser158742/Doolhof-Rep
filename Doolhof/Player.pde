@@ -13,6 +13,7 @@ class Player {
   Piano piano;
   Hue hue;
   Timer timer;
+  Button button;
 
   //fields
   String location;
@@ -27,6 +28,7 @@ class Player {
   int widthScreen = 0;
   int heightScreen = 0;
   boolean falseMessage = false;
+  boolean gewonnen = false;
   
   //constructoren
   //deze constructor renderd de map en layer op specefieke locatie
@@ -48,6 +50,7 @@ class Player {
     this.tekst = new Tekst();
     this.playerSprite = sprite.getSpriteSheet(path);
     playerSprite.resize(playerSprite.width / 2, playerSprite.height / 2);
+    //button = screen.getButton();
   }
 
   //deze constructor renderd de map en layer op locatie sprite
@@ -70,6 +73,7 @@ class Player {
     this.tekst = new Tekst();
     this.playerSprite = sprite.getSpriteSheet(path);
     playerSprite.resize(playerSprite.width / 2, playerSprite.height / 2);
+    //button = screen.getButton();
   }
 
   //methods
@@ -95,6 +99,19 @@ class Player {
     hue.visible = false;
     piano.visible = false;
     miniGame.index = 0;
+    gewonnen = false;
+  }
+
+  void winScreen(){
+    fill(color(96,96,96));
+    rect(((screen.getWidthScreen() * screen.getScale()) / 2) - 200, ((screen.getHeightScreen() * screen.getScale()) / 2) - 150, 400, 200);
+    button = new Button(screen);
+    button.fillButtonList("gewonnen", "Hoofd menu", "mainMenu", ((screen.getWidthScreen() * screen.getScale()) / 2) - 50, ((screen.getHeightScreen() * screen.getScale()) / 2), 100, 40, color(0,0,80), color(255,255,255), 16, 8, 25, "Arial", true, false);
+    button.render("gewonnen");
+    fill(color(255,255,255));
+    PFont f = createFont("Arial",30,true);
+    textFont(f,30);
+    text("Gewonnen!",((screen.getWidthScreen() * screen.getScale()) / 2) - 75, ((screen.getHeightScreen() * screen.getScale()) / 2) - 50);
   }
 
   void render(int xLoc, int yLoc, int widthScreen, int heightScreen){
@@ -104,7 +121,7 @@ class Player {
     int yy = heightScreen / 2;
     level.render(xx - xLoc,yy - yLoc,0,0, widthScreen, heightScreen);
 
-    if(!piano.visible && !hue.visible){
+    if(!piano.visible && !hue.visible && !gewonnen){
       renderPlayer(xx,yy);
       move();
     }
@@ -125,6 +142,22 @@ class Player {
       piano.falseMessage = false;
       newTimer("Probeer Opnieuw.", 3, ((screen.getWidthScreen() * screen.getScale()) / 2) - 130, ((screen.getHeightScreen() * screen.getScale()) / 2) - 110, 30, 300, 50, true);
     }
+
+    if(hue.index == hue.aatalColors && !tekst.showTekst && !hue.start && !hue.falseMessage){
+      hue.start = true;
+      newTimer("Jouw Beurt!", 3, ((screen.getWidthScreen() * screen.getScale()) / 2) - 80, ((screen.getHeightScreen() * screen.getScale()) / 2) - 110, 30, 200, 50, true);
+    }
+
+    if(hue.succes && !hue.correct) {
+      hue.correct = true;
+      newTimer("Correct.", 3, ((screen.getWidthScreen() * screen.getScale()) / 2) - 80, ((screen.getHeightScreen() * screen.getScale()) / 2) - 110, 30, 200, 50, true);
+    }
+
+    if(hue.falseMessage) {
+      hue.falseMessage = false;
+      newTimer("Probeer Opnieuw.", 3, ((screen.getWidthScreen() * screen.getScale()) / 2) - 130, ((screen.getHeightScreen() * screen.getScale()) / 2) - 110, 30, 300, 50, true);
+    }
+    if(gewonnen) winScreen();
   } 
 
   void renderPlayer(int x, int y){
@@ -182,8 +215,12 @@ void nextLevel(){
       this.yPlayer = level.spawnY;
       reachedGoal = false;
       found = true;
+      screen.lastUnlockedLevel = location;
       reset();
     }
+  }
+  if(!found) {
+    gewonnen = true;
   }
 }
 

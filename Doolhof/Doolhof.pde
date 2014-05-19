@@ -28,7 +28,7 @@ void initInstance(){
   keyboard = new Keyboard();
   minim = new Minim(this);
   audio = new Audio(minim);
-  //audio.play("playerGameMusic");
+  audio.play("playerGameMusic");
   cp5 = new ControlP5(this);
   screen = new Screen(file, keyboard, minim, audio, cp5);
   }

@@ -17,6 +17,7 @@ class MenuBar{
 		this.heightMenuBar = heightMenuBar;
 		this.player = screen.getPlayer();
 		this.clock = new Clock();
+		//button = screen.getButton();
 	}
 
 	//methods

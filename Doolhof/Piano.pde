@@ -64,6 +64,19 @@ class Piano{
 		}
 	}
 
+	void init(){
+		huidigeGeluid = 0;
+		waarde = 0;
+		geluid = "";
+		gedrukteToets = "";
+		succes = false;
+		toetsen = new String[maxAantalGeluiden];
+		huidigeToets = 0;
+		start = false;
+		correct = false;
+		falseMessage = false;
+	}
+
 	void renderPiano(int toets){
 		renderRect(x1 + startX - 20, startY + lengte1, (breedte1 * 7) + 40, 20, color(0,0,0));
 		renderRect(x1 + startX - 20, startY - 60, (breedte1 * 7) + 40, 60, color(0,0,0));
@@ -153,7 +166,6 @@ class Piano{
 	void randomGeluid() {
 		int random1 = int(random(1, 12));
 		geluid = "player"+random1;
-		println(geluid);
 		PlayAudio(geluid);
 		toetsen[waarde] = geluid;
 		waarde++;

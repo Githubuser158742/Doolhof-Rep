@@ -136,9 +136,11 @@ void getMiniGame(int xWall, int yWall){
   String game = miniGame.miniGameList.get(miniGame.index);
   miniGame.incrementIndex();
   if(game.equals("piano")){
+    piano.init();
     piano.visible = true;
     piano.startTimer();
   } else if(game.equals("hue")){
+    hue.init();
     hue.visible = true;
     hue.startTimer();
   } else{
