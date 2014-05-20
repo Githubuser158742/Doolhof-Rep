@@ -4,7 +4,7 @@ class Level {
   Player player;
   Piano piano;
   Minim minim2;
-  Audio audio2;
+  Audio audio;
   PImage map;
   Screen screen;
   PImage spriteSheet;
@@ -24,6 +24,7 @@ class Level {
     this.miniGame = screen.getMiniGame();
     this.piano = screen.getPiano();
     this.hue = screen.getHue();
+    audio = screen.getAudio();
     map = sprite.getSpriteSheet(path);
     spriteSheet = sprite.getSpriteSheet("data/sheets/sheet" + int(random(1,3)) + ".png");
     if(playable) {
@@ -119,27 +120,28 @@ void render(int xStart, int yStart, int xRender, int yRender, int width, int hei
      }
    }
  }
-  if(menuBar != null) menuBar.render();
-  if(piano.visible){
-    piano.render();
-    if(piano.succes) wallNewLocation(xW, yW);
-  } 
-  if(hue.visible){
-     hue.render();
-     if(hue.succes) wallNewLocation(xW, yW);
-  }
+ if(menuBar != null) menuBar.render();
+ if(piano.visible){
+  piano.render();
+  if(piano.succes) wallNewLocation(xW, yW);
+} 
+if(hue.visible){
+ hue.render();
+ if(hue.succes) wallNewLocation(xW, yW);
+}
 }
 
 void getMiniGame(int xWall, int yWall){
+  audio.stop("playerGameMusic");
   xW = xWall;
   yW = yWall;
   String game = miniGame.miniGameList.get(miniGame.index);
   miniGame.incrementIndex();
-  if(game.equals("piano")){
+  if(game.equals("piano2")){
     piano.init();
     piano.visible = true;
     piano.startTimer();
-  } else if(game.equals("hue")){
+  } else if(game.equals("hue2")){
     hue.init();
     hue.visible = true;
     hue.startTimer();
@@ -149,6 +151,9 @@ void getMiniGame(int xWall, int yWall){
 }
 
 void wallNewLocation(int xWall, int yWall){
+  audio.stop("playerPoort");
+  audio.play("playerPoort");
+  audio.play("playerGameMusic");
   boolean newLocation = false;
   if(checkNextTile(xWall - 1, yWall,255,100,255)) if(!newLocation) newLocation = moveWall(newLocation,xWall - 1, yWall, xWall, yWall);
   if(checkNextTile(xWall + 1, yWall,255,100,255)) if(!newLocation) newLocation = moveWall(newLocation,xWall + 1, yWall, xWall, yWall);

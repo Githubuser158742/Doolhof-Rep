@@ -14,6 +14,7 @@ class Player {
   Hue hue;
   Timer timer;
   Button button;
+  Audio audio;
 
   //fields
   String location;
@@ -50,7 +51,9 @@ class Player {
     this.tekst = new Tekst();
     this.playerSprite = sprite.getSpriteSheet(path);
     playerSprite.resize(playerSprite.width / 2, playerSprite.height / 2);
-    //button = screen.getButton();
+    audio = screen.getAudio();
+    button = new Button(screen);
+    button.fillButtonList("gewonnen", "Hoofd Menu", "mainMenu", ((screen.getWidthScreen() * screen.getScale()) / 2) - 50, ((screen.getHeightScreen() * screen.getScale()) / 2), 100, 40, color(0,0,80), color(255,255,255), 16, 8, 25, "Arial", true, false);
   }
 
   //deze constructor renderd de map en layer op locatie sprite
@@ -73,11 +76,14 @@ class Player {
     this.tekst = new Tekst();
     this.playerSprite = sprite.getSpriteSheet(path);
     playerSprite.resize(playerSprite.width / 2, playerSprite.height / 2);
-    //button = screen.getButton();
+    audio = screen.getAudio();
+    button = new Button(screen);
+    button.fillButtonList("gewonnen", "Hoofd Menu", "mainMenu", ((screen.getWidthScreen() * screen.getScale()) / 2) - 50, ((screen.getHeightScreen() * screen.getScale()) / 2), 100, 40, color(0,0,80), color(255,255,255), 16, 8, 25, "Arial", true, false);
   }
 
   //methods
   void newLevel(String levelPath, int widthScreen, int heightScreen, String location){
+    audio.play("playerGameMusic");
     this.level = new Level(levelPath, widthScreen, heightScreen, screen, true);
     level.getSpawnGoal();
     this.widthScreen = widthScreen;
@@ -105,8 +111,6 @@ class Player {
   void winScreen(){
     fill(color(96,96,96));
     rect(((screen.getWidthScreen() * screen.getScale()) / 2) - 200, ((screen.getHeightScreen() * screen.getScale()) / 2) - 150, 400, 200);
-    button = new Button(screen);
-    button.fillButtonList("gewonnen", "Hoofd menu", "mainMenu", ((screen.getWidthScreen() * screen.getScale()) / 2) - 50, ((screen.getHeightScreen() * screen.getScale()) / 2), 100, 40, color(0,0,80), color(255,255,255), 16, 8, 25, "Arial", true, false);
     button.render("gewonnen");
     fill(color(255,255,255));
     PFont f = createFont("Arial",30,true);
@@ -198,6 +202,8 @@ class Player {
 void reachedGoal(){
   if((xPlayer == level.goalX) && (yPlayer == level.goalY) && (!reachedGoal)){
     reachedGoal = true;
+    audio.stop("playerLevelUp");
+    audio.play("playerLevelUp");
     nextLevel();
   }
 }

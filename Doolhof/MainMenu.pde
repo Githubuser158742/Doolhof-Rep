@@ -52,7 +52,7 @@ class MainMenu{
 		button.fillButtonList("mainMenu", "Nieuw Spel", "new", (widthMainMenu / 2) - 100, 50, 200, 50, color(0,0,80), color(255,255,255), 20, 0, -5, "Arial", true, true);
 		button.fillButtonList("mainMenu", "Verder Spelen", "continue", (widthMainMenu / 2) - 100, 120, 200, 50, color(0,0,80), color(255,255,255), 20, 0, -5, "Arial", true, true);
     	//button.fillButtonList("mainMenu", "Instellingen", "setting", (widthMainMenu / 2) - 100, 190, 200, 50, color(0,0,80), color(255,255,255), 20, 0, -5, "Arial", true, true);
-    	button.fillButtonList("mainMenu", "Gameplay", "", (widthMainMenu / 2) - 100, 190, 200, 50, color(0,0,80), color(255,255,255), 20, 0, -5, "Arial", false, true);
+    	button.fillButtonList("mainMenu", "Gameplay", "gamePlay", (widthMainMenu / 2) - 100, 190, 200, 50, color(0,0,80), color(255,255,255), 20, 0, -5, "Arial", true, true);
     	button.fillButtonList("mainMenu", "Credits", "credits", (widthMainMenu / 2) - 100, 260, 200, 50, color(0,0,80), color(255,255,255), 20, 0, -5, "Arial", true, true);
     }
 

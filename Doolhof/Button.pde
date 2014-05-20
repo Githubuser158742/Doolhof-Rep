@@ -22,12 +22,14 @@ class Button{
 	//classes
 	Player player;
 	Screen screen;
+	Audio audio;
 
 	//constructoren
 	Button(Screen screen){
 		this.screen = screen;
 		//println(screen);
 		this.player = screen.getPlayer();
+		audio = screen.getAudio();
 	}
 
 	//methods
@@ -122,10 +124,17 @@ class Button{
 					cursor(HAND);
 					mouseOver = true;
 					renderButtons(name, xStart, yStart, widthButton, heightButton, color(255,0,0), tekstColor, size, textXStart, textYStart, letterType, centerTekst);
-					if(keyboard.mouseLeft) player.location = location;
+					if(keyboard.mouseLeft && !keyboard.input){
+						keyboard.input = true;
+						audio.play("playerButton");
+						player.location = location;
+					} 
 				}
 			}
 		}
-		if(!mouseOver) cursor(ARROW);
+		if(!mouseOver) {
+			cursor(ARROW);
+			audio.stop("playerButton");
+		}
 	}
 }

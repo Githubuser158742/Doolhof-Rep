@@ -18,6 +18,7 @@ class Screen{
 	ControlP5 cp5;
 	Hue hue;
 	Button button;
+	GamePlay gamePlay;
 
 	//fields
 	int widthScreen = 300;
@@ -60,6 +61,7 @@ class Screen{
 
 		initMainMenu();
 		this.credits = new Credits(this);
+		gamePlay = new GamePlay(this);
 		//this.setting = new Setting(this);
 	}
 
@@ -87,9 +89,11 @@ class Screen{
 		if(player.location.equals("mainMenu")) {
 			player.reset();
 			mainMenu.render(tileWidth, tileHeight);
+			audio.stop("playerGameMusic");
 		}
 		if(player.location.equals("setting")) setting.render();
 		if(player.location.equals("credits")) credits.render();
+		if(player.location.equals("gamePlay") || player.location.equals("gamePlay2") || player.location.equals("gamePlay3")) gamePlay.render(player.location);
 		//if(player.location.equals("saven")) restart = true;
 		if(player.location.equals("new")) player.newLevel(dataPath + "sheets/" + file.levelList.get(0) + ".png", widthScreen * scale, heightScreen * scale, "level1");
 		if(player.location.equals("continue")) player.newLevel(dataPath + "sheets/" + lastUnlockedLevel + ".png", widthScreen * scale, heightScreen * scale, lastUnlockedLevel);

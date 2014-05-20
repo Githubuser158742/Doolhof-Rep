@@ -10,7 +10,7 @@ class Credits {
 
   void addCreditToList() {
     button = new Button(screen);
-    button.fillButtonList("credit", "Main Menu", "mainMenu", (screen.getWidthScreen() * 3 / 2) - 100, 300, 200, 50, color(0, 0, 80), color(255, 255, 255), 20, 0, -5, "Arial", true, true);
+    button.fillButtonList("credit", "Hoofd Menu", "mainMenu", (screen.getWidthScreen() * 3 / 2) - 100, 300, 200, 50, color(0, 0, 80), color(255, 255, 255), 20, 0, -5, "Arial", true, true);
   }
 
   void render() {

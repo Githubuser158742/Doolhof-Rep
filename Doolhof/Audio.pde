@@ -144,6 +144,18 @@ class Audio {
       playerGameMusic.close();
       playerGameMusic = minim.loadFile(gameMusic);
     }
+    if (name.equals("playerButton")) {
+      playerButton.close();
+      playerButton = minim.loadFile(button);
+    }
+    if (name.equals("playerPoort")) {
+      playerPoort.close();
+      playerPoort = minim.loadFile(poort);
+    }
+    if (name.equals("playerLevelUp")) {
+      playerLevelUp.close();
+      playerLevelUp = minim.loadFile(levelup);
+    }
   }
 }
 
