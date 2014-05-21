@@ -116,12 +116,19 @@ class Hue{
 	}
 
 	void getKeyInput() {
-		if (keyboard.a && !keyboard.input) executeInput(1);
+		/*if (keyboard.a && !keyboard.input) executeInput(1);
 		if (keyboard.b && !keyboard.input) executeInput(2);
 		if (keyboard.c && !keyboard.input) executeInput(3);
 		if (keyboard.d && !keyboard.input) executeInput(4);
 		if (keyboard.e && !keyboard.input) executeInput(5);
-		if (keyboard.f && !keyboard.input) executeInput(6);
+		if (keyboard.f && !keyboard.input) executeInput(6);*/
+
+		if (keyboard.w && !keyboard.input) executeInput(1);
+		if (keyboard.a && !keyboard.input) executeInput(2);
+		if (keyboard.s && !keyboard.input) executeInput(3);
+		if (keyboard.d && !keyboard.input) executeInput(4);
+		if (keyboard.f && !keyboard.input) executeInput(5);
+		if (keyboard.g && !keyboard.input) executeInput(6);
 		if(keyboard.input) executeInput(0);
 	}
 

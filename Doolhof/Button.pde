@@ -120,7 +120,7 @@ class Button{
 				String letterType = buttonList.get(i).letterType;
 				boolean centerTekst = buttonList.get(i).centerTekst;
 				String location = buttonList.get(i).location;
-				if((mouseX > xStart && mouseX < xStart + widthButton) && (mouseY > yStart && mouseY < yStart + heightButton)){
+				if(((mouseX > xStart && mouseX < xStart + widthButton) && (mouseY > yStart && mouseY < yStart + heightButton)) || (player.keyMouse && player.index == i)){
 					cursor(HAND);
 					mouseOver = true;
 					renderButtons(name, xStart, yStart, widthButton, heightButton, color(255,0,0), tekstColor, size, textXStart, textYStart, letterType, centerTekst);
@@ -132,7 +132,7 @@ class Button{
 				}
 			}
 		}
-		if(!mouseOver) {
+		if(!mouseOver && !player.keyMouse) {
 			cursor(ARROW);
 			audio.stop("playerButton");
 		}

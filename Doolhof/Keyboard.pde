@@ -3,7 +3,7 @@ class Keyboard {
     //fields
     boolean left, right, up, down = false; //arow key input
     boolean save, saveImage = false; //save data player, save current screen
-    boolean a, b, c, d, e, f, g, h, i, j, k, l, m, w, s = false;
+    boolean a, b, c, d, e, f, g, h, i, j, k, l, m, w, s, q = false;
     boolean space = false; //interactie met bepaaldee voorwerpen
     boolean mouseLeft = false; //mouse input left
     boolean input = false; //begrenzer zodat er maar 1 x een actie wordt uitgevoerd per render
@@ -29,8 +29,15 @@ class Keyboard {
       keyList.add("m");
       keyList.add("w");
       keyList.add("s");
+      keyList.add("q");
       keyList.add("z");
       keyList.add("mouseLeft");
+      keyList.add("left");
+      keyList.add("right");
+      keyList.add("UP");
+      keyList.add("DOWN");
+      keyList.add("up");
+      keyList.add("down");
     }
 
     //methods
@@ -45,7 +52,7 @@ class Keyboard {
             //if (keyCode == VK_F2) saveImage = true;
           }
         //normale keys
-        if (key == ' ') space = true;
+        /*if (key == ' ') space = true;
         if (key == 's') save = true;
         if (key == 'z') saveImage = true;
         if (key == 'a') a = true;
@@ -61,7 +68,15 @@ class Keyboard {
         if (key == 'k') k = true;
         if (key == 'l') l = true;
         if (key == 'm') m = true;
+        if (key == 'w') w = true;*/
+
+        if (key == ' ') space = true;
         if (key == 'w') w = true;
+        if (key == 'a') a = true;
+        if (key == 's') s = true;
+        if (key == 'd') d = true;
+        if (key == 'f') f = true;
+        if (key == 'g') g = true;
       }
 
     //deze methode kijkt over een key is losgelaten en zet dan de corresponderende variable op false
@@ -75,7 +90,8 @@ class Keyboard {
             //if (keyCode == VK_F2) saveImage = false;
           }
         //normale keys
-        if (key == ' ') space = false;
+        //keyboard
+        /*if (key == ' ') space = false;
         if (key == 's') save = false;
         if (key == 'z') saveImage = false;
         if (key == 'a') a = false;
@@ -91,10 +107,25 @@ class Keyboard {
         if (key == 'k') k = false;
         if (key == 'l') l = false;
         if (key == 'm') m = false;
+        if (key == 'w') w = false;*/
+
+        //makey makey
+        if (key == ' ') space = false;
         if (key == 'w') w = false;
+        if (key == 'a') a = false;
+        if (key == 's') s = false;
+        if (key == 'd') d = false;
+        if (key == 'f') f = false;
+        if (key == 'g') g = false;
+
         //deze code overloopt alle begrensde keys en al de ingedrukte toets is losgelaten wordt de input variablr op false gezet.
         for(int i = 0; i < keyList.size();i++){
           if(keyList.get(i).equals(str(key))) input = false;
+          if(keyList.get(i).equals("left")) input = false;
+          if(keyList.get(i).equals("right")) input = false;
+          if(keyList.get(i).equals("up")) input = false;
+          if(keyList.get(i).equals("down")) input = false;
+          //if(keyList.get(i).equals(str(keyCode))) input = false;
         }
       }
 

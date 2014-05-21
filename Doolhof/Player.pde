@@ -30,6 +30,8 @@ class Player {
   int heightScreen = 0;
   boolean falseMessage = false;
   boolean gewonnen = false;
+  boolean keyMouse = false;
+  int index = -1;
   
   //constructoren
   //deze constructor renderd de map en layer op specefieke locatie
@@ -178,8 +180,24 @@ class Player {
    time++;
  }
 
+ void nav(){
+  keyMouse = true;
+  if(keyboard.up && !keyboard.input){
+    keyboard.input = true;
+    if(index < 3) index++;
+    else index = 0;
+  }
+
+  if(keyboard.down && !keyboard.input){
+    keyboard.input = true;
+    if(index > 0) index--;
+    else index = 3;
+  }
+}
+
  //deze methode verplaats de map en steld de juiste sprite voor player in
  void move(){
+  keyMouse = false;
   if(keyboard.left){
     getPlayerSprite("left");
     if(!level.collisionNextTile((int)xPlayer-(int)speed, (int)yPlayer)) xPlayer -= speed;

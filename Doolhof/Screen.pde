@@ -90,6 +90,7 @@ class Screen{
 			player.reset();
 			mainMenu.render(tileWidth, tileHeight);
 			audio.stop("playerGameMusic");
+			player.nav();
 		}
 		if(player.location.equals("setting")) setting.render();
 		if(player.location.equals("credits")) credits.render();

@@ -128,7 +128,7 @@ class Piano{
 
 	//deze methode cheked of er een toets is ingetikt en wordt de corresponderende geluid afgespeeld
 	void getKeyInput() {
-		if (keyboard.a && !keyboard.input) executeInput(1);
+		/*if (keyboard.a && !keyboard.input) executeInput(1);
 		if (keyboard.b && !keyboard.input) executeInput(2);
 		if (keyboard.c && !keyboard.input) executeInput(3);
 		if (keyboard.d && !keyboard.input) executeInput(4);
@@ -139,7 +139,20 @@ class Piano{
 		if (keyboard.i && !keyboard.input) executeInput(9);
 		if (keyboard.j && !keyboard.input) executeInput(10);
 		if (keyboard.k && !keyboard.input) executeInput(11);
-		if (keyboard.l && !keyboard.input) executeInput(12);
+		if (keyboard.l && !keyboard.input) executeInput(12);*/
+
+		if (keyboard.space && !keyboard.input) executeInput(1);
+		if (keyboard.w && !keyboard.input) executeInput(2);
+		if (keyboard.a && !keyboard.input) executeInput(3);
+		if (keyboard.s && !keyboard.input) executeInput(4);
+		if (keyboard.d && !keyboard.input) executeInput(5);
+		if (keyboard.f && !keyboard.input) executeInput(6);
+		if (keyboard.g && !keyboard.input) executeInput(7);
+		if (keyboard.left && !keyboard.input) executeInput(8);
+		if (keyboard.right && !keyboard.input) executeInput(9);
+		if (keyboard.up && !keyboard.input) executeInput(10);
+		if (keyboard.down && !keyboard.input) executeInput(11);
+		if (keyboard.mouseLeft && !keyboard.input) executeInput(12);
 	}
 
 	void executeInput(int i){

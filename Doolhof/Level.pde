@@ -84,7 +84,7 @@ class Level {
  }
 
  void renderSprite(String name, int x, int y){
-  image(sprite.getSprite(name, sprite.getPixelSize(),sprite.getPixelSize(), spriteSheet), (x * sprite.getTileMultiplier()) << sprite.getTileSize(), (y * sprite.getTileMultiplier()) << sprite.getTileSize(), sprite.getPixelSize()*sprite.getTileMultiplier(), sprite.getPixelSize()*sprite.getTileMultiplier());
+  image(sprite.getSprite(name, sprite.getPixelSize(),sprite.getPixelSize(), spriteSheet), ((x * sprite.getTileMultiplier()) << sprite.getTileSize()), ((y * sprite.getTileMultiplier()) << sprite.getTileSize()), sprite.getPixelSize()*sprite.getTileMultiplier(), sprite.getPixelSize()*sprite.getTileMultiplier());
 }
 
 void saveImage(int xLoc, int yLoc, int widthScreen, int heightScreen){
@@ -137,11 +137,11 @@ void getMiniGame(int xWall, int yWall){
   yW = yWall;
   String game = miniGame.miniGameList.get(miniGame.index);
   miniGame.incrementIndex();
-  if(game.equals("piano2")){
+  if(game.equals("piano")){
     piano.init();
     piano.visible = true;
     piano.startTimer();
-  } else if(game.equals("hue2")){
+  } else if(game.equals("hue")){
     hue.init();
     hue.visible = true;
     hue.startTimer();
